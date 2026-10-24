@@ -12,8 +12,6 @@
 
 ## 루프 (하루 1회)
 
-![aeobot × 아이보스 Agentic GTM 루프](docs/img/loop.svg)
-
 ```
 measure → collect → judge(루브릭) → scorecard → learn → drafts → kakao → (사람이 게시) → log ─┐
    ↑                                                                               │
