@@ -27,6 +27,8 @@ def main() -> None:
     kl.add_argument("--redirect-uri", default="https://localhost")
     kl.add_argument("--code", help="로그인 후 주소창의 code 값")
     sub.add_parser("kakao-test", help="나에게 보내기 테스트 메시지")
+    ks = sub.add_parser("kakao-send", help="그날 오픈채팅 초안을 나에게 다시 보내기")
+    ks.add_argument("--date")
     a = p.parse_args()
     today = getattr(a, "date", None) or datetime.now(KST).date().isoformat()
     if a.cmd == "run":
@@ -38,6 +40,11 @@ def main() -> None:
         else:
             token = kakao.exchange_code(key, a.redirect_uri, a.code, os.environ.get("KAKAO_CLIENT_SECRET", ""))
             print("KAKAO_REFRESH_TOKEN으로 저장하세요 (약 2개월 유효):\n" + token)
+    elif a.cmd == "kakao-send":
+        send = kakao.sender_from_env()
+        if not send:
+            raise SystemExit("KAKAO_REST_API_KEY와 KAKAO_REFRESH_TOKEN이 필요합니다")
+        print(f"{kakao.send_day(ROOT / 'out' / today, send)}개 보냈습니다")
     elif a.cmd == "kakao-test":
         send = kakao.sender_from_env()
         if not send:

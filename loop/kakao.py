@@ -68,6 +68,14 @@ def memos(rooms: list[tuple[str, str]]) -> list[str]:
     return out
 
 
+def send_day(day_dir, send) -> int:
+    """Send one day's open-chat drafts again, e.g. after a failed run or as a demo."""
+    texts = memos(room_messages((day_dir / "drafts.md").read_text(encoding="utf-8")))
+    for text in texts:
+        send(text)
+    return len(texts)
+
+
 class Sender:
     def __init__(self, rest_key: str, refresh_token: str, client_secret: str = ""):
         self.rest_key, self.refresh_token, self.client_secret = rest_key, refresh_token, client_secret

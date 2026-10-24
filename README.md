@@ -57,6 +57,8 @@ uv run python -m loop log --channel lead --kind response --note "대행사 AEO �
    클라이언트 시크릿을 켰다면 `KAKAO_CLIENT_SECRET`도 함께 넘깁니다.
 4. `KAKAO_REST_API_KEY`, `KAKAO_REFRESH_TOKEN`(필요하면 `KAKAO_CLIENT_SECRET`)을 `.env`나 실행 환경의 비밀값에 넣고 `uv run python -m loop kakao-test`로 확인합니다.
 
+실행이 실패했거나 미리 보고 싶을 때는 `uv run python -m loop kakao-send --date 2026-10-24`로 그날 초안을 다시 받을 수 있습니다.
+
 리프레시 토큰은 약 2개월 유효합니다. 만료가 한 달 안으로 다가오면 `out/<날짜>/errors.md`에 다시 발급하라는 안내가 남습니다. 같은 날 다시 실행해도 중복 전송하지 않습니다.
 
 ## 실행

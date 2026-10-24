@@ -118,3 +118,12 @@ def test_token_error_shows_kakao_code(monkeypatch):
         assert "KOE320" in str(e) and "invalid_grant" in str(e)
     else:
         raise AssertionError("expected RuntimeError")
+
+
+def test_send_day_resends_drafts(tmp_path, monkeypatch):
+    day = tmp_path / "out" / "2026-10-25"
+    day.mkdir(parents=True)
+    (day / "drafts.md").write_text(DRAFTS, encoding="utf-8")
+    sent = []
+    assert kakao.send_day(day, sent.append) == len(sent) > 0
+    assert "room-hospital" in sent[0]
