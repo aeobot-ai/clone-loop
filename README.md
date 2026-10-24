@@ -11,7 +11,7 @@
 ## 루프 (하루 1회)
 
 ```
-measure → collect → judge(루브릭) → scorecard → learn → drafts → (사람이 게시) → log ─┐
+measure → collect → judge(루브릭) → scorecard → learn → drafts → kakao → (사람이 게시) → log ─┐
    ↑                                                                               │
    └──────────────────────────── 다음 날 ──────────────────────────────────────────┘
 ```
@@ -24,6 +24,7 @@ measure → collect → judge(루브릭) → scorecard → learn → drafts → 
 | scorecard | North Star와 채널·훅별 성과, 리드 현황 | `out/<날짜>/scorecard.md` |
 | learn | 스코어카드 숫자만 근거로 학습 노트 갱신 | [`learnings.md`](learnings.md) |
 | drafts | 학습 노트를 반영한 오픈채팅방 메시지·게시판 글·답글·의뢰 응답 초안, 채널·훅별 UTM 링크 | `out/<날짜>/drafts.md` |
+| kakao | 오픈채팅방 메시지 초안을 내 카카오톡으로 전송(나에게 보내기). 설정했을 때만 | `out/<날짜>/kakao-sent` |
 
 **North Star:** 루브릭을 통과한 마케터에게서 받은 반응 수(댓글·쪽지·의뢰 회신). 봇이나 엉뚱한 사람에게 닿은 숫자는 세지 않습니다.
 
@@ -39,6 +40,22 @@ uv run python -m loop log --channel board-aeo --kind reply --url https://www.i-b
 uv run python -m loop log --channel room-beauty --kind chat --hook h-winter-moisturizer-ai-1 --campaign winter-moisturizer-ai
 uv run python -m loop log --channel lead --kind response --note "대행사 AEO 의뢰자 회신, 미팅 잡음"
 ```
+
+## 카카오톡으로 초안 받기 (선택)
+
+카카오는 오픈채팅방에 글을 올리는 API를 제공하지 않습니다. 대신 루프가 매일 오픈채팅 초안을 **나에게 보내기**로 보내 주므로, 휴대폰에서 복사해 방에 붙이면 됩니다. 기본 텍스트 템플릿은 200자 제한이 있어서, 방마다 안내 메시지 하나와 이어 붙일 조각 2~3개로 나눠 옵니다.
+
+1. [카카오디벨로퍼스](https://developers.kakao.com/console/app)에서 앱을 만들고 REST API 키를 확인합니다.
+2. 앱에서 카카오 로그인을 켜고, 리다이렉트 URI에 `https://localhost`를 등록하고, 동의항목에서 "카카오톡 메시지 전송(talk_message)"을 켭니다. 메시지를 눌렀을 때 aeobot.ai가 열리게 하려면 웹 도메인에 `https://aeobot.ai`도 등록합니다.
+3. 리프레시 토큰을 한 번 발급합니다.
+   ```sh
+   KAKAO_REST_API_KEY=... uv run python -m loop kakao-login             # 출력된 주소를 열어 동의
+   KAKAO_REST_API_KEY=... uv run python -m loop kakao-login --code <주소창의 code 값>
+   ```
+   클라이언트 시크릿을 켰다면 `KAKAO_CLIENT_SECRET`도 함께 넘깁니다.
+4. `KAKAO_REST_API_KEY`, `KAKAO_REFRESH_TOKEN`(필요하면 `KAKAO_CLIENT_SECRET`)을 `.env`나 실행 환경의 비밀값에 넣고 `uv run python -m loop kakao-test`로 확인합니다.
+
+리프레시 토큰은 약 2개월 유효합니다. 만료가 한 달 안으로 다가오면 `out/<날짜>/errors.md`에 다시 발급하라는 안내가 남습니다. 같은 날 다시 실행해도 중복 전송하지 않습니다.
 
 ## 실행
 

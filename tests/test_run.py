@@ -146,3 +146,35 @@ def test_own_posts_not_collected(tmp_path):
                   LedgerRow(TODAY, "board-blog", "post", "https://www.i-boss.co.kr/ab-6141-72783", "h-x-1", "x", ""))
     run_day(TODAY, root, fake_scrape, fake_get, fake_ask)
     assert "ab-6141-72783" not in (root / "out" / TODAY / "threads.md").read_text()
+
+
+def test_drafts_sent_to_kakao_once_per_day(tmp_path):
+    root = setup_root(tmp_path)
+    sent = []
+
+    def ask(p):
+        if "사람이 직접 올릴 초안" in p:
+            return "# 초안\n## 1. 오픈채팅방 메시지\n### room-beauty\n메시지 {{utm:room-beauty:winter-moisturizer-ai:h-winter-moisturizer-ai-1}}\n## 2. 게시판 글\n"
+        return fake_ask(p)
+
+    run_day(TODAY, root, fake_scrape, fake_get, ask, memo=sent.append)
+    assert len(sent) == 2 and "room-beauty" in sent[0]
+    assert "utm_medium=room-beauty" in sent[1]  # UTM filled before sending
+    run_day(TODAY, root, fake_scrape, fake_get, ask, memo=sent.append)
+    assert len(sent) == 2  # rerun does not resend
+
+
+def test_kakao_failure_is_reported(tmp_path):
+    root = setup_root(tmp_path)
+
+    def boom(text):
+        raise RuntimeError("401")
+
+    def ask(p):
+        if "사람이 직접 올릴 초안" in p:
+            return "# 초안\n## 1. 오픈채팅방 메시지\n### room-beauty\n메시지\n"
+        return fake_ask(p)
+
+    out = run_day(TODAY, root, fake_scrape, fake_get, ask, memo=boom)
+    assert "kakao" in (out / "errors.md").read_text()
+    assert (out / "drafts.md").exists()

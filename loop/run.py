@@ -8,7 +8,7 @@ import traceback
 from pathlib import Path
 from typing import Callable
 
-from loop import web
+from loop import kakao, web
 from loop.blog import SITEMAP, parse_post_page, parse_sitemap
 from loop.iboss import is_relevant, parse_board_rows, parse_lead_cards, parse_post_stats, post_body
 from loop.llm import ask as claude_ask
@@ -68,7 +68,9 @@ def run_day(
     scrape: Callable[[str], str] = web.scrape,
     get: Callable[[str], str] = web.get,
     ask: Callable[[str], str] = claude_ask,
+    memo: Callable[[str], None] | None = None,
 ) -> Path:
+    memo = memo or kakao.sender_from_env()  # None: KakaoTalk not configured
     data, out = root / "data", root / "out" / today
     out.mkdir(parents=True, exist_ok=True)
     (out / "errors.md").unlink(missing_ok=True)
@@ -194,7 +196,22 @@ def run_day(
             learnings=learnings_path.read_text(encoding="utf-8"),
             posts="\n\n".join(f"### {p.title} (slug: {p.slug}, {p.published})\n{p.text}" for p in posts) or "없음",
             threads=fmt(passed(thread_items)), leads=fmt(passed(lead_items)))
-        (out / "drafts.md").write_text(_fill_utm(ask(prompt)) + "\n", encoding="utf-8")
+        text = _fill_utm(ask(prompt))
+        (out / "drafts.md").write_text(text + "\n", encoding="utf-8")
+        return text
 
-    step("drafts", drafts)
+    drafts_text = step("drafts", drafts)
+
+    def send_kakao():
+        sent = out / "kakao-sent"  # a rerun the same day must not resend
+        if not memo or not drafts_text or sent.exists():
+            return
+        for text in kakao.memos(kakao.room_messages(drafts_text)):
+            memo(text)
+        sent.touch()
+        if getattr(memo, "renewed", False):
+            errors.append("- kakao: 리프레시 토큰이 한 달 안에 만료됩니다. 새로 발급해 KAKAO_REFRESH_TOKEN을 바꿔 주세요.")
+            (out / "errors.md").write_text("# 오류\n\n" + "\n".join(errors) + "\n", encoding="utf-8")
+
+    step("kakao", send_kakao)
     return out
