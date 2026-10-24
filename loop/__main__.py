@@ -18,7 +18,7 @@ def main() -> None:
     r.add_argument("--date")
     lg = sub.add_parser("log", help="게시·반응 한 줄 기록")
     lg.add_argument("--channel", required=True)
-    lg.add_argument("--kind", required=True, choices=["post", "reply", "chat", "lead-reply", "response"])
+    lg.add_argument("--kind", required=True, choices=["post", "reply", "chat", "lead-reply", "response", "diagnosis", "paid"])
     lg.add_argument("--url", default="")
     lg.add_argument("--hook", default="")
     lg.add_argument("--campaign", default="")

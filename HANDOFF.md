@@ -13,7 +13,7 @@
    - LLM 단계는 `claude -p`를 호출한다. 실행 환경에 `claude` CLI가 없으면 판정·학습·초안 단계가 `out/<날짜>/errors.md`에 오류를 남기고 측정·스코어카드만 생성된다. 그 경우 `loop/llm.py`의 `ask()`를 그 환경에서 쓸 수 있는 LLM 호출로 바꾼다.
 3. **사람이 매일 할 일**: `out/<오늘>/drafts.md` 확인 → 아이보스에 직접 게시 → `python -m loop log ...`로 기록(README 참고). 반응(댓글·쪽지·의뢰 회신)은 `--kind response`로 기록 — 이것이 North Star.
 4. **선택**: GA4 서비스 계정 키·속성 ID를 받으면 UTM 유입을 스코어카드에 추가.
-5. **10/31 18:00까지**: Day 1 → Day 7 North Star, 체크리스트 통과 수, 채널·훅별 조회 변화, 리드 응답 수, `learnings.md` 이력을 정리해 Discord에 공유.
+5. **10/31 18:00까지**: Day 1 → Day 7 North Star, 전환(무료 진단 신청 5·유료 1 목표), 체크리스트 통과 수, 채널·훅별 조회 변화, 리드 응답 수, `learnings.md` 이력을 정리해 Discord에 공유.
 
 ## 참고
 - 설계: `docs/superpowers/specs/2026-10-24-iboss-gtm-loop-design.md`

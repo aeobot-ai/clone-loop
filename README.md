@@ -24,6 +24,8 @@
 
 **North Star:** 고객 체크리스트를 통과한 마케터에게서 받은 반응 수(댓글·쪽지·의뢰 회신). 봇이나 엉뚱한 사람에게 닿은 숫자는 세지 않습니다.
 
+**전환:** 무료 AI 노출 진단 신청과 유료 전환. 스코어카드에 채널별 경로와 함께 표시됩니다.
+
 ## 사람이 하는 일 (하루 5~10분)
 
 아이보스에는 게시 API가 없고, 자동 게시는 스팸·계정 정지 위험이 있어 **등록 버튼만 사람이 누릅니다.**
@@ -35,6 +37,8 @@
 uv run python -m loop log --channel board-aeo --kind reply --url https://www.i-boss.co.kr/ab-6141-72783 --hook h-winter-moisturizer-ai-1 --campaign winter-moisturizer-ai
 uv run python -m loop log --channel room-content --kind chat --hook h-winter-moisturizer-ai-1 --campaign winter-moisturizer-ai
 uv run python -m loop log --channel lead --kind response --note "대행사 AEO 의뢰자 회신, 미팅 잡음"
+uv run python -m loop log --channel lead --kind diagnosis --note "대행사 AEO 의뢰자, 무료 진단 신청"
+uv run python -m loop log --channel lead --kind paid --note "유료 플랜 계약"
 ```
 
 ## 카카오톡으로 초안 받기 (선택)
@@ -83,6 +87,7 @@ LLM 단계는 headless Claude Code(`claude -p`)를 씁니다. 매일 09:00 KST �
 ## 7일 뒤 보고할 숫자 (2026-10-31)
 
 - North Star: 진짜 고객 반응 수, Day 1 → Day 7
+- 전환: 무료 진단 신청 **5건**, 유료 전환 **1건** (10/24 제출 이후 추가한 목표)
 - 체크리스트 통과 대상 수와 통과율
 - 채널·훅별 조회·댓글 변화, 대행의뢰 리드 수·응답 수·회신 수
 - `learnings.md` git 이력: 루프가 바꾼 결정들

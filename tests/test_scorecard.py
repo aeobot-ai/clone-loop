@@ -39,3 +39,18 @@ def test_same_url_logged_twice_counted_once():
     metrics = [{"date": "2026-10-24", "url": "u1", "views": 10, "likes": 1, "comments": 2}]
     out = build_scorecard(ledger, metrics, [], [], "2026-10-24")
     assert "| board-aeo | 2 | 10 | 1 | 2 | +10 |" in out
+
+
+def test_conversions_counted_and_kept_out_of_post_tables():
+    ledger = [
+        L("board-aeo", "post", "u1"),
+        L("lead", "diagnosis", ""),
+        L("board-aeo", "diagnosis", ""),
+        L("lead", "paid", ""),
+    ]
+    metrics = [{"date": "2026-10-24", "url": "u1", "views": 10, "likes": 0, "comments": 0}]
+    out = build_scorecard(ledger, metrics, [], [], "2026-10-24")
+    assert "무료 진단 신청: **2** / 목표 5" in out
+    assert "유료 전환: **1** / 목표 1" in out
+    assert "board-aeo 1 · lead 2" in out
+    assert "| board-aeo | 1 | 10 | 0 | 0 | +10 |" in out  # diagnosis rows are not posts
