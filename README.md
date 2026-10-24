@@ -47,6 +47,10 @@ uv run python -m loop log --channel lead --kind response --note "대행사 AEO �
 
 카카오는 오픈채팅방에 글을 올리는 API를 제공하지 않습니다. 대신 루프가 매일 오픈채팅 초안을 **나에게 보내기**로 보내 주므로, 휴대폰에서 복사해 방에 붙이면 됩니다. 기본 텍스트 템플릿은 200자 제한이 있어서, 방마다 안내 메시지 하나와 이어 붙일 조각 2~3개로 나눠 옵니다.
 
+<img src="docs/kakao-demo.jpg" alt="카카오톡 나와의 채팅에 온 room-hospital 초안: 방 안내, 본문 조각 2개, UTM 링크" width="360">
+
+▼ 안내는 어느 방에 보낼지 알려 주는 표시이고, 그 아래 조각들을 차례로 복사해 해당 방에 붙이면 메시지 하나가 됩니다. 마지막 조각이 채널·훅별 UTM 링크입니다.
+
 1. [카카오디벨로퍼스](https://developers.kakao.com/console/app)에서 앱을 만들고 REST API 키를 확인합니다.
 2. 앱에서 카카오 로그인을 켜고, 리다이렉트 URI에 `https://localhost`를 등록하고, 동의항목에서 "카카오톡 메시지 전송(talk_message)"을 켭니다. 메시지를 눌렀을 때 aeobot.ai가 열리게 하려면 웹 도메인에 `https://aeobot.ai`도 등록합니다.
 3. 리프레시 토큰을 한 번 발급합니다.
