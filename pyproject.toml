@@ -1,0 +1,13 @@
+[project]
+name = "clone-loop"
+version = "0.1.0"
+description = "aeobot GTM loop on i-boss: draft, measure, learn, repeat"
+requires-python = ">=3.12"
+dependencies = ["requests>=2.32"]
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
