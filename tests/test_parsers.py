@@ -71,3 +71,9 @@ def test_post_body_skips_site_menu():
     md = "[메뉴](https://x)\n" * 800 + (FIX / "post.md").read_text()
     assert post_body(md).startswith("# 블로그 노출 현황들 여쭙습니다")
     assert post_body("no heading at all") == "no heading at all"
+
+
+def test_board_row_posted_today_shows_time():
+    md = "| AEO·GEO [강남 피부과, 네이버 지도 1위와 AI가 고르는 병원은 달랐습니다](https://www.i-boss.co.kr/ab-6141-72900&tag=AEO+GEO \"t\") | aeobot | **16:07** | 1 | 0 |"
+    rows = parse_board_rows(md)
+    assert rows and rows[0].date == "16:07"

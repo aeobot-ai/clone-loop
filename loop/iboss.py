@@ -44,7 +44,7 @@ def parse_post_stats(md: str) -> PostStats | None:
 
 _ROW = re.compile(
     r"^\|[^|\[]*\[(?P<title>[^\]]+)\]\((?P<url>https://www\.i-boss\.co\.kr/ab-[\d-]+)[^)]*\)\s*(?P<cmt>[\d,]*)\s*"
-    r"\|[^|]*\|\s*(?P<date>[\d.]+)\s*\|\s*(?P<views>[\d,]+)\s*\|\s*(?P<likes>[\d,]+)\s*\|",
+    r"\|[^|]*\|\s*\*{0,2}(?P<date>[\d.:]+)\*{0,2}\s*\|\s*(?P<views>[\d,]+)\s*\|\s*(?P<likes>[\d,]+)\s*\|",
     re.M,
 )
 
