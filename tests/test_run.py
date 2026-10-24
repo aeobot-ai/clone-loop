@@ -178,3 +178,19 @@ def test_kakao_failure_is_reported(tmp_path):
     out = run_day(TODAY, root, fake_scrape, fake_get, ask, memo=boom)
     assert "kakao" in (out / "errors.md").read_text()
     assert (out / "drafts.md").exists()
+
+
+def test_drafts_only_for_joined_rooms(tmp_path):
+    root = setup_root(tmp_path)
+    prompts = []
+
+    def ask(p):
+        prompts.append(p)
+        return fake_ask(p)
+
+    run_day(TODAY, root, fake_scrape, fake_get, ask)
+    draft = [p for p in prompts if "사람이 직접 올릴 초안" in p][-1]
+    assert "room-ai" in draft and "room-content" in draft
+    assert "https://www.i-boss.co.kr/ab-5545-149" in draft
+    for gone in ["room-hospital", "room-beauty", "room-agency", "room-inhouse", "room-viral"]:
+        assert gone not in draft

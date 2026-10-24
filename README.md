@@ -39,7 +39,7 @@ measure → collect → judge(루브릭) → scorecard → learn → drafts → 
 
 ```sh
 uv run python -m loop log --channel board-aeo --kind reply --url https://www.i-boss.co.kr/ab-6141-72783 --hook h-winter-moisturizer-ai-1 --campaign winter-moisturizer-ai
-uv run python -m loop log --channel room-beauty --kind chat --hook h-winter-moisturizer-ai-1 --campaign winter-moisturizer-ai
+uv run python -m loop log --channel room-content --kind chat --hook h-winter-moisturizer-ai-1 --campaign winter-moisturizer-ai
 uv run python -m loop log --channel lead --kind response --note "대행사 AEO 의뢰자 회신, 미팅 잡음"
 ```
 

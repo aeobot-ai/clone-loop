@@ -27,6 +27,14 @@ LEAD_BOARDS = {
     "SEO": "https://www.i-boss.co.kr/ab-1957&category_1=SEO",
     "AI": "https://www.i-boss.co.kr/ab-1957&category_1=AI",
 }
+# i-boss open chats we have applied to. Both are info-sharing rooms where direct promotion is off-limits.
+# To add a room after joining, add one entry here.
+ROOMS = {
+    "room-ai": ("AI 활용 정보공유", "https://www.i-boss.co.kr/ab-5545-149",
+                "마케팅·기획·콘텐츠에서 생성형 AI를 쓰거나 관심 있는 실무자"),
+    "room-content": ("콘텐츠 마케팅 정보공유", "https://www.i-boss.co.kr/ab-5545-146",
+                     "블로그·뉴스레터·SNS 콘텐츠를 기획·제작하는 실무자"),
+}
 WARMUP_UNTIL = "2026-10-27"  # new i-boss account: replies and info-sharing only before this date
 MAX_THREADS = 6
 PER_BOARD = 2  # AEO·GEO alone would fill every slot, mostly with competitors' posts
@@ -193,6 +201,8 @@ def run_day(
                       if today < WARMUP_UNTIL else "정회원이면 마케팅 서비스 게시판 홍보 글도 하나 쓸 수 있다.")
         prompt = (root / "prompts/drafts.md").read_text(encoding="utf-8").format(
             today=today, rubric=rubric, phase_rule=phase_rule,
+            rooms="\n".join(f"- {cid}: {name} ({url}) — {who}" for cid, (name, url, who) in ROOMS.items()),
+            room_ids=", ".join(ROOMS),
             learnings=learnings_path.read_text(encoding="utf-8"),
             posts="\n\n".join(f"### {p.title} (slug: {p.slug}, {p.published})\n{p.text}" for p in posts) or "없음",
             threads=fmt(passed(thread_items)), leads=fmt(passed(lead_items)))

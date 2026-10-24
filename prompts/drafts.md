@@ -8,7 +8,7 @@
 ## 지켜야 할 것
 - aeobot 블로그와 같은 톤: 관찰 기록, 측정 방법과 한계를 밝힘. 블로그 본문에 없는 숫자는 쓰지 않는다. "노출 보장", "1위 보장" 같은 표현 금지.
 - 도움이 먼저다. 답글은 상대 질문에 먼저 답하고, 링크는 맥락상 필요할 때만 하나.
-- aeobot 링크는 반드시 토큰으로 쓴다: `{{{{utm:<채널>:<블로그 slug 또는 home>:<훅 id>}}}}`. 채널: board-aeo, board-blog, board-qna, board-hospital, board-ai, room-hospital, room-beauty, room-agency, room-inhouse, room-viral, room-content, lead. 훅 id: `h-<slug>-<번호>`.
+- aeobot 링크는 반드시 토큰으로 쓴다: `{{{{utm:<채널>:<블로그 slug 또는 home>:<훅 id>}}}}`. 채널: board-aeo, board-blog, board-qna, board-hospital, board-ai, {room_ids}, lead. 훅 id: `h-<slug>-<번호>`.
 - {phase_rule}
 - 학습 노트의 "내일 바꿀 것"을 반드시 반영하고, 어떻게 반영했는지 맨 위에 한 줄로 적는다.
 
@@ -28,7 +28,10 @@
 # 초안 {today}
 > 학습 반영: ...
 ## 1. 오픈채팅방 메시지
-방마다(room-hospital, room-beauty, room-agency, room-inhouse, room-viral, room-content) `### <채널>` 아래 3~5문장 메시지 하나. 그 방 업종에 가장 맞는 블로그 글의 훅 하나를 쓴다. 맞는 글이 없으면 "오늘은 보내지 않음"과 이유.
+우리가 들어가 있는 방은 아래뿐이다. 다른 방용 메시지는 쓰지 않는다.
+{rooms}
+
+방마다 `### <채널>` 아래 3~5문장 메시지 하나. 두 방 모두 정보 교류 공간이라 직접 홍보는 금지다: 그 방 사람들이 궁금해할 관찰 데이터 하나와 질문 하나로 쓰고, 링크는 맥락상 필요할 때만 하나. 병원·뷰티 등 업종 데이터는 그 방 관심사(AI 활용, 콘텐츠 제작)와 연결되는 사례로 쓴다. 맞는 글이 없으면 "오늘은 보내지 않음"과 이유.
 ## 2. 게시판 글
 `### <채널>` 제목과 본문 하나 (정보 공유형, 홍보 문구 없음).
 ## 3. 답글
