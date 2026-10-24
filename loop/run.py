@@ -103,7 +103,7 @@ def run_day(
 
     targets_path = data / "targets.jsonl"
     all_targets = _read_jsonl(targets_path)
-    judged = {t["url"] for t in all_targets if t["date"] != today}
+    judged = {t["url"] for t in all_targets if t["date"] != today} | {r.url for r in ledger if r.url}  # skip our own posts
     verdicts: dict[str, dict] = {t["url"]: t for t in all_targets if t["date"] == today}
 
     def threads():

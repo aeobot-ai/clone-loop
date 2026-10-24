@@ -138,3 +138,11 @@ def test_threads_spread_across_boards(tmp_path):
     listing = (root / "out" / TODAY / "threads.md").read_text()
     assert listing.count("(board-aeo)") == 2
     assert "(board-blog)" in listing
+
+
+def test_own_posts_not_collected(tmp_path):
+    root = setup_root(tmp_path)
+    append_ledger(root / "data/ledger.csv",
+                  LedgerRow(TODAY, "board-blog", "post", "https://www.i-boss.co.kr/ab-6141-72783", "h-x-1", "x", ""))
+    run_day(TODAY, root, fake_scrape, fake_get, fake_ask)
+    assert "ab-6141-72783" not in (root / "out" / TODAY / "threads.md").read_text()
