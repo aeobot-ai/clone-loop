@@ -10,7 +10,7 @@ from typing import Callable
 
 from loop import web
 from loop.blog import SITEMAP, parse_post_page, parse_sitemap
-from loop.iboss import is_relevant, parse_board_rows, parse_lead_cards, parse_post_stats
+from loop.iboss import is_relevant, parse_board_rows, parse_lead_cards, parse_post_stats, post_body
 from loop.llm import ask as claude_ask
 from loop.scorecard import build_scorecard
 from loop.store import append_metrics, read_leads, read_ledger, read_metrics, upsert_leads
@@ -70,6 +70,7 @@ def run_day(
 ) -> Path:
     data, out = root / "data", root / "out" / today
     out.mkdir(parents=True, exist_ok=True)
+    (out / "errors.md").unlink(missing_ok=True)
     errors: list[str] = []
 
     def step(name: str, fn: Callable[[], object]):
@@ -100,7 +101,9 @@ def run_day(
     posts = step("blog", blog_posts) or []
 
     targets_path = data / "targets.jsonl"
-    judged = {t["url"] for t in _read_jsonl(targets_path)}
+    all_targets = _read_jsonl(targets_path)
+    judged = {t["url"] for t in all_targets if t["date"] != today}
+    verdicts: dict[str, dict] = {t["url"]: t for t in all_targets if t["date"] == today}
 
     def threads():
         found = []
@@ -115,7 +118,7 @@ def run_day(
         picked = uniq[:MAX_THREADS]
         items = []
         for channel, r in picked:
-            body = step(f"thread {r.url}", lambda u=r.url: scrape(u)) or ""
+            body = post_body(step(f"thread {r.url}", lambda u=r.url: scrape(u)) or "")
             items.append({"kind": "thread", "channel": channel, "url": r.url, "title": r.title,
                           "views": r.views, "comments": r.comments, "body": body[:THREAD_CHARS]})
         return items
@@ -126,12 +129,18 @@ def run_day(
         cards = []
         for cat, url in LEAD_BOARDS.items():
             cards += [(cat, c) for c in (step(f"leads {cat}", lambda u=url: parse_lead_cards(scrape(u))) or []) if not c.closed]
-        fresh = upsert_leads(data / "leads.csv", [
+        upsert_leads(data / "leads.csv", [
             {"found": today, "url": c.url, "title": c.title, "category": cat} for cat, c in cards
         ])
-        fresh_urls = {f["url"] for f in fresh}
-        return [{"kind": "lead", "channel": "lead", "url": c.url, "title": c.title, "body": c.summary,
-                 "budget": c.budget, "industry": c.industry} for _, c in cards if c.url in fresh_urls]
+        # Offer every open lead not judged on an earlier day, so a failed judge/drafts day is retried.
+        items, seen = [], set()
+        for _, c in cards:
+            if c.url in judged or c.url in seen:
+                continue
+            seen.add(c.url)
+            items.append({"kind": "lead", "channel": "lead", "url": c.url, "title": c.title, "body": c.summary,
+                          "budget": c.budget, "industry": c.industry})
+        return items
 
     lead_items = step("leads", leads) or []
 
@@ -141,10 +150,9 @@ def run_day(
         ) + "\n", encoding="utf-8")
 
     rubric = (root / "rubric.md").read_text(encoding="utf-8")
-    verdicts: dict[str, dict] = {}
 
     def judge():
-        items = thread_items + lead_items
+        items = [i for i in thread_items + lead_items if i["url"] not in verdicts]
         if not items:
             return
         listing = "\n\n".join(f"### {i['url']}\n제목: {i['title']}\n{i['body']}" for i in items)

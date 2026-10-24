@@ -22,8 +22,8 @@ def _table(title: str, key, ledger: list[LedgerRow], latest: dict[str, list[dict
     lines = [f"### {title}", "", "| 이름 | 게시 수 | 조회 | 좋아요 | 댓글 | 전날 대비 조회 |", "|---|---|---|---|---|---|"]
     for name, rows in sorted(groups.items()):
         views = likes = comments = delta = 0
-        for r in rows:
-            hist = latest.get(r.url, [])
+        for url in {r.url for r in rows}:  # a thread logged twice (post + reply) is still one page
+            hist = latest.get(url, [])
             if not hist:
                 continue
             views += hist[-1]["views"]

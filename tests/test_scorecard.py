@@ -32,3 +32,10 @@ def test_north_star_and_leads_and_targets():
     assert "new 1" in out and "replied 1" in out
     assert "루브릭 통과 1 / 판정 2" in out
     assert "UTM(GA4) 연결 전" in out
+
+
+def test_same_url_logged_twice_counted_once():
+    ledger = [L("board-aeo", "reply", "u1"), L("board-aeo", "reply", "u1")]
+    metrics = [{"date": "2026-10-24", "url": "u1", "views": 10, "likes": 1, "comments": 2}]
+    out = build_scorecard(ledger, metrics, [], [], "2026-10-24")
+    assert "| board-aeo | 2 | 10 | 1 | 2 | +10 |" in out

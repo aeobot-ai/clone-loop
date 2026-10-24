@@ -63,3 +63,11 @@ def test_lead_cards():
     assert place.closed
     assert place.industry == "병원"
     assert place.budget.startswith("월간최소 10만원")
+
+
+def test_post_body_skips_site_menu():
+    from loop.iboss import post_body
+
+    md = "[메뉴](https://x)\n" * 800 + (FIX / "post.md").read_text()
+    assert post_body(md).startswith("# 블로그 노출 현황들 여쭙습니다")
+    assert post_body("no heading at all") == "no heading at all"

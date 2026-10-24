@@ -85,3 +85,41 @@ def test_rerun_same_day_no_duplicates(tmp_path):
     run_day(TODAY, root, fake_scrape, fake_get, fake_ask)
     assert len(read_metrics(root / "data/metrics.jsonl")) == 1
     assert (root / "learnings.md").read_text().startswith("# 학습 노트")
+
+
+def test_rerun_same_day_keeps_candidates(tmp_path):
+    root = setup_root(tmp_path)
+    prompts = []
+
+    def ask(p):
+        prompts.append(p)
+        return fake_ask(p)
+
+    run_day(TODAY, root, fake_scrape, fake_get, ask)
+    run_day(TODAY, root, fake_scrape, fake_get, ask)
+    draft_prompts = [p for p in prompts if "사람이 직접 올릴 초안" in p]
+    assert "ab-1958-88890" in draft_prompts[-1]  # lead still offered on rerun
+    assert "ab-6141-72783" in draft_prompts[-1]  # thread still offered on rerun
+    targets = (root / "data/targets.jsonl").read_text().splitlines()
+    assert len(targets) == len({json.loads(t)["url"] for t in targets})  # no duplicate verdicts
+
+
+def test_judge_failure_retries_leads_next_day(tmp_path):
+    root = setup_root(tmp_path)
+
+    def judge_down(p):
+        if "루브릭으로 각 항목" in p:
+            raise RuntimeError("timeout")
+        return fake_ask(p)
+
+    run_day(TODAY, root, fake_scrape, fake_get, judge_down)
+    prompts = []
+
+    def ask(p):
+        prompts.append(p)
+        return fake_ask(p)
+
+    run_day("2026-10-25", root, fake_scrape, fake_get, ask)
+    judge = [p for p in prompts if "루브릭으로 각 항목" in p][0]
+    assert "ab-1958-88890" in judge
+    assert judge.count("### https://www.i-boss.co.kr/ab-1958-88890") == 1

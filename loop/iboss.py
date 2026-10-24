@@ -85,3 +85,10 @@ def parse_lead_cards(md: str) -> list[LeadCard]:
                  m["budget"] or "", m["industry"] or "", m["date"] or "")
         for m in _CARD.finditer(md)
     ]
+
+
+def post_body(md: str) -> str:
+    """Firecrawl's full-page markdown starts with ~10 KB of site menu; return from the post's own heading."""
+    i = md.find("\n조회수 ")
+    start = md.rfind("\n# ", 0, i) if i > 0 else md.find("\n# ")
+    return md[start + 1:] if start >= 0 else md
