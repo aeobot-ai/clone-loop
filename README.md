@@ -2,6 +2,8 @@
 
 [aeobot](https://aeobot.ai)(AI 답변 엔진 속 브랜드 노출 측정)을 **진짜 고객**인 대기업 인하우스 마케터와 블로그 마케팅 대행사 담당자에게 알리는 Agentic GTM 루프입니다. Clone Loop Day Seoul(2026-10-24) 제출작.
 
+![aeobot × 아이보스 Agentic GTM 루프](docs/loop.png)
+
 ## 왜 아이보스인가
 
 국내 최대 마케터 커뮤니티 [아이보스](https://www.i-boss.co.kr)에는 우리 고객이 이미 모여 있고, 고민도 공개되어 있습니다.
