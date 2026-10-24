@@ -42,9 +42,9 @@ def build_scorecard(ledger: list[LedgerRow], metrics: list[dict], leads: list[di
         "",
         "## North Star",
         "",
-        f"진짜 고객 반응: **{responses}** (루브릭을 통과한 마케터의 댓글·쪽지·의뢰 회신 누적)",
+        f"진짜 고객 반응: **{responses}** (고객 체크리스트를 통과한 마케터의 댓글·쪽지·의뢰 회신 누적)",
         "",
-        f"루브릭 통과 {passed} / 판정 {len(targets)} (수집한 글·리드 누적)",
+        f"체크리스트 통과 {passed} / 판정 {len(targets)} (수집한 글·리드 누적)",
         "",
     ]
     posted = [r for r in ledger if r.kind != "response"]

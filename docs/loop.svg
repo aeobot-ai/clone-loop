@@ -51,7 +51,7 @@
   <rect x="875" y="184" width="270" height="132" rx="18" class="auto"/>
   <circle cx="905" cy="216" r="18" fill="#6366f1"/><text x="905" y="222" text-anchor="middle" class="n">2</text>
   <text x="935" y="224" class="t">진짜 고객 판정</text>
-  <text x="897" y="258" class="s">루브릭 예/아니오 체크</text>
+  <text x="897" y="258" class="s">체크리스트 예/아니오 판정</text>
   <text x="897" y="282" class="cap">마케팅 실무자? 노출 책임?</text>
   <text x="897" y="304" class="cap">경쟁 실행사 홍보글은 탈락</text>
   <rect x="1187" y="334" width="270" height="132" rx="18" class="auto"/>
@@ -82,14 +82,14 @@
   <circle cx="1010" cy="550" r="150" fill="#0f172a"/>
   <text x="1010" y="495" text-anchor="middle" font-size="18" font-weight="700" fill="#a5b4fc">NORTH STAR</text>
   <text x="1010" y="535" text-anchor="middle" font-size="24" font-weight="800" fill="#ffffff">진짜 고객 반응 수</text>
-  <text x="1010" y="570" text-anchor="middle" font-size="16" fill="#cbd5e1">루브릭 통과 마케터의</text>
+  <text x="1010" y="570" text-anchor="middle" font-size="16" fill="#cbd5e1">체크리스트 통과 마케터의</text>
   <text x="1010" y="594" text-anchor="middle" font-size="16" fill="#cbd5e1">댓글 · 쪽지 · 의뢰 회신</text>
   <text x="1010" y="634" text-anchor="middle" font-size="14" fill="#94a3b8">봇 · 경쟁사 반응은 세지 않음</text>
 
   <!-- day 1 facts -->
   <rect x="60" y="560" width="330" height="360" rx="18" class="box"/>
   <text x="84" y="600" class="t">Day 1 (10/24)</text>
-  <text x="84" y="642" class="s">판정 11 → 루브릭 통과 7</text>
+  <text x="84" y="642" class="s">판정 11 → 체크리스트 통과 7</text>
   <text x="84" y="676" class="s">대행의뢰 리드 5건 모두 통과</text>
   <text x="100" y="702" class="cap">“AEO·GEO 처음, 상담 원함” 대행사 등</text>
   <text x="84" y="740" class="s">AEO·GEO 게시판 글 대부분</text>

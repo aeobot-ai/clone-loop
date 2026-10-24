@@ -32,7 +32,7 @@ def fake_get(url):
 
 
 def fake_ask(prompt):
-    if "루브릭으로 각 항목" in prompt:
+    if "고객 체크리스트로 각 항목" in prompt:
         urls = [l[4:].strip() for l in prompt.splitlines() if l.startswith("### https://")]
         return "\n".join(json.dumps({"url": u, "pass": True, "why": "test"}) for u in urls)
     if "학습 노트를 새로 쓴다" in prompt:
@@ -51,7 +51,7 @@ def test_happy_path(tmp_path):
     assert not (out / "errors.md").exists()
     targets = (root / "data/targets.jsonl").read_text().splitlines()
     assert any('"kind": "lead"' in t for t in targets)
-    assert "루브릭 통과" in (out / "scorecard.md").read_text()
+    assert "체크리스트 통과" in (out / "scorecard.md").read_text()
 
 
 def test_scrape_failure_keeps_going(tmp_path):
@@ -108,7 +108,7 @@ def test_judge_failure_retries_leads_next_day(tmp_path):
     root = setup_root(tmp_path)
 
     def judge_down(p):
-        if "루브릭으로 각 항목" in p:
+        if "고객 체크리스트로 각 항목" in p:
             raise RuntimeError("timeout")
         return fake_ask(p)
 
@@ -120,7 +120,7 @@ def test_judge_failure_retries_leads_next_day(tmp_path):
         return fake_ask(p)
 
     run_day("2026-10-25", root, fake_scrape, fake_get, ask)
-    judge = [p for p in prompts if "루브릭으로 각 항목" in p][0]
+    judge = [p for p in prompts if "고객 체크리스트로 각 항목" in p][0]
     assert "ab-1958-88890" in judge
     assert judge.count("### https://www.i-boss.co.kr/ab-1958-88890") == 1
 

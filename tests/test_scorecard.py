@@ -30,7 +30,7 @@ def test_north_star_and_leads_and_targets():
     out = build_scorecard(ledger, [], leads, targets, "2026-10-24")
     assert "진짜 고객 반응: **2**" in out
     assert "new 1" in out and "replied 1" in out
-    assert "루브릭 통과 1 / 판정 2" in out
+    assert "체크리스트 통과 1 / 판정 2" in out
     assert "UTM(GA4) 연결 전" in out
 
 
