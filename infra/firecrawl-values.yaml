@@ -1,0 +1,18 @@
+image:
+  repository: ghcr.io/firecrawl/firecrawl
+  pullPolicy: IfNotPresent
+playwright:
+  repository: ghcr.io/firecrawl/playwright-service
+  pullPolicy: IfNotPresent
+nuqPostgres:
+  image:
+    repository: ghcr.io/firecrawl/nuq-postgres
+    pullPolicy: IfNotPresent
+  persistence:
+    enabled: true
+    size: 5Gi
+    storageClass: gp3
+nuqWorker:
+  replicaCount: 1
+extractWorker:
+  enabled: false
