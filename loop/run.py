@@ -29,6 +29,7 @@ LEAD_BOARDS = {
 }
 WARMUP_UNTIL = "2026-10-27"  # new i-boss account: replies and info-sharing only before this date
 MAX_THREADS = 6
+PER_BOARD = 2  # AEO·GEO alone would fill every slot, mostly with competitors' posts
 THREAD_CHARS = 1500
 TOP_POSTS = 3
 _UTM = re.compile(r"\{\{utm:([\w-]+):([\w-]+):([\w-]+)\}\}")
@@ -109,7 +110,7 @@ def run_day(
         found = []
         for channel, url in BOARDS.items():
             rows = step(f"board {channel}", lambda u=url: parse_board_rows(scrape(u))) or []
-            found += [(channel, r) for r in rows if is_relevant(r.title) and r.url not in judged]
+            found += [(channel, r) for r in rows if is_relevant(r.title) and r.url not in judged][:PER_BOARD]
         seen, uniq = set(), []
         for channel, r in found:
             if r.url not in seen:

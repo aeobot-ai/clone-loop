@@ -123,3 +123,18 @@ def test_judge_failure_retries_leads_next_day(tmp_path):
     judge = [p for p in prompts if "루브릭으로 각 항목" in p][0]
     assert "ab-1958-88890" in judge
     assert judge.count("### https://www.i-boss.co.kr/ab-1958-88890") == 1
+
+
+def test_threads_spread_across_boards(tmp_path):
+    root = setup_root(tmp_path)
+
+    def scrape(url):
+        if "ab-6140?tag=AEO" in url:
+            rows = "\n".join(f"| [GEO 글 {n}](https://www.i-boss.co.kr/ab-6141-9{n:03d}) | a | 10.2{n % 9} | 1 | 0 |" for n in range(10))
+            return rows
+        return fake_scrape(url)
+
+    run_day(TODAY, root, scrape, fake_get, fake_ask)
+    listing = (root / "out" / TODAY / "threads.md").read_text()
+    assert listing.count("(board-aeo)") == 2
+    assert "(board-blog)" in listing
