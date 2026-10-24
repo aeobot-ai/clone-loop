@@ -32,10 +32,11 @@ def test_memos_fit_limit_and_keep_text():
     memos = kakao.memos(rooms)
     assert all(len(m) <= kakao.TEXT_LIMIT for m in memos)
     hospital = rooms[0][1]
-    header, *parts = memos[:memos.index(next(m for m in memos if "room-beauty" in m))]
-    assert "room-hospital" in header and f"{len(parts)}개" in header
-    assert " ".join(parts) == hospital  # pasted back together, nothing lost
+    parts = memos[:memos.index(next(m for m in memos if "room-beauty" in m))]
+    assert parts[0].startswith("[room-hospital] ")  # room tag rides on the first part, no separate header
+    assert " ".join(parts) == "[room-hospital] " + hospital  # pasted back together, nothing lost
     assert any(p.endswith("utm_content=h-ai-citation-gap-1") for p in parts)  # URL never split
+    assert memos[-1] == "[room-beauty] 짧은 메시지입니다."
 
 
 def test_no_rooms_no_memos():

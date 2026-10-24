@@ -1,7 +1,7 @@
 """Send today's open-chat drafts to my own KakaoTalk ("나에게 보내기"), ready to copy into each room.
 
 Kakao has no API for posting into open chat rooms, so a person still pastes them. The default text
-template caps text at 200 chars, so each room gets a header memo plus paste-ready parts.
+template caps text at 200 chars, so each room arrives as 2-3 paste-ready parts, the first tagged with its room.
 """
 
 from __future__ import annotations
@@ -63,8 +63,7 @@ def _parts(text: str) -> list[str]:
 def memos(rooms: list[tuple[str, str]]) -> list[str]:
     out = []
     for channel, body in rooms:
-        parts = _parts(body)
-        out += [f"▼ {channel} 오픈채팅방: 아래 {len(parts)}개를 이어 붙여 보내세요"] + parts
+        out += _parts(f"[{channel}] {body}")
     return out
 
 

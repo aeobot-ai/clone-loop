@@ -158,10 +158,10 @@ def test_drafts_sent_to_kakao_once_per_day(tmp_path):
         return fake_ask(p)
 
     run_day(TODAY, root, fake_scrape, fake_get, ask, memo=sent.append)
-    assert len(sent) == 2 and "room-beauty" in sent[0]
-    assert "utm_medium=room-beauty" in sent[1]  # UTM filled before sending
+    assert len(sent) == 1 and sent[0].startswith("[room-beauty] ")
+    assert "utm_medium=room-beauty" in sent[0]  # UTM filled before sending
     run_day(TODAY, root, fake_scrape, fake_get, ask, memo=sent.append)
-    assert len(sent) == 2  # rerun does not resend
+    assert len(sent) == 1  # rerun does not resend
 
 
 def test_kakao_failure_is_reported(tmp_path):
