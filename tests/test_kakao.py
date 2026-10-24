@@ -43,8 +43,8 @@ def test_no_rooms_no_memos():
 
 
 class Resp:
-    def __init__(self, body):
-        self._body = body
+    def __init__(self, body, status_code=200):
+        self._body, self.status_code = body, status_code
 
     def raise_for_status(self):
         pass
@@ -107,3 +107,14 @@ def test_login_url_and_code_exchange(monkeypatch):
     assert kakao.exchange_code("key", "https://localhost", "c0de") == "rt"
     assert seen == {"grant_type": "authorization_code", "client_id": "key",
                     "redirect_uri": "https://localhost", "code": "c0de"}
+
+
+def test_token_error_shows_kakao_code(monkeypatch):
+    monkeypatch.setattr(kakao.requests, "post", lambda url, **k: Resp(
+        {"error": "invalid_grant", "error_description": "authorization code not found", "error_code": "KOE320"}, 400))
+    try:
+        kakao.Sender("key", "rt")("x")
+    except RuntimeError as e:
+        assert "KOE320" in str(e) and "invalid_grant" in str(e)
+    else:
+        raise AssertionError("expected RuntimeError")

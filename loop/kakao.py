@@ -22,6 +22,16 @@ _ROOMS = re.compile(r"^## 1\..*?$(.*?)(?=^## |\Z)", re.M | re.S)
 _SENTENCE = re.compile(r"(?<=[.!?])\s+")
 
 
+def _ok(r: requests.Response) -> dict:
+    if r.status_code >= 400:  # Kakao's own error code says why (KOE…); the body holds no secrets on error
+        try:
+            b = r.json()
+        except ValueError:
+            b = {}
+        raise RuntimeError(f"kakao {r.status_code}: {b.get('error_code', '')} {b.get('error', '')} {b.get('error_description', b.get('msg', ''))}".strip())
+    return r.json()
+
+
 def room_messages(drafts: str) -> list[tuple[str, str]]:
     m = _ROOMS.search(drafts)
     if not m:
@@ -68,9 +78,7 @@ class Sender:
             data = {"grant_type": "refresh_token", "client_id": self.rest_key, "refresh_token": self.refresh_token}
             if self.client_secret:
                 data["client_secret"] = self.client_secret
-            r = requests.post(TOKEN_URL, data=data, timeout=30)
-            r.raise_for_status()
-            body = r.json()
+            body = _ok(requests.post(TOKEN_URL, data=data, timeout=30))
             self.token = body["access_token"]
             self.renewed = "refresh_token" in body  # only issued when the old one has under a month left
         return self.token
@@ -79,9 +87,9 @@ class Sender:
         template = {"object_type": "text", "text": text, "link": {"web_url": LINK, "mobile_web_url": LINK}}
         r = requests.post(MEMO_URL, headers={"Authorization": f"Bearer {self._access_token()}"},
                           data={"template_object": json.dumps(template, ensure_ascii=False)}, timeout=30)
-        r.raise_for_status()
-        if r.json().get("result_code") != 0:
-            raise RuntimeError(f"kakao memo: result_code {r.json().get('result_code')}")
+        code = _ok(r).get("result_code")
+        if code != 0:
+            raise RuntimeError(f"kakao memo: result_code {code}")
 
 
 def authorize_url(rest_key: str, redirect_uri: str) -> str:
@@ -93,9 +101,7 @@ def exchange_code(rest_key: str, redirect_uri: str, code: str, client_secret: st
     data = {"grant_type": "authorization_code", "client_id": rest_key, "redirect_uri": redirect_uri, "code": code}
     if client_secret:
         data["client_secret"] = client_secret
-    r = requests.post(TOKEN_URL, data=data, timeout=30)
-    r.raise_for_status()
-    return r.json()["refresh_token"]
+    return _ok(requests.post(TOKEN_URL, data=data, timeout=30))["refresh_token"]
 
 
 def sender_from_env() -> Sender | None:
