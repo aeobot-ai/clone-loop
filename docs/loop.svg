@@ -33,50 +33,57 @@
   <text x="100" y="368" class="cap">병의원 · AI</text>
   <text x="84" y="410" class="s">• 대행의뢰 (SEO · AI)</text>
   <text x="100" y="436" class="cap">구매 의도가 있는 리드</text>
-  <!-- loop (generated: nodes on an ellipse, arrows are arcs of the same ellipse) -->
-  <path d="M360,320 C440,320 470,400 557,400" class="ln" marker-end="url(#a)"/>
-  <path id="arc0" d="M779.1,319.9 A360,300 0 0 1 860.7,277.0" class="ln" marker-end="url(#a)"/>
-  <path id="arc1" d="M1159.3,277.0 A360,300 0 0 1 1240.9,319.9" class="ln" marker-end="url(#a)"/>
-  <path id="arc2" d="M1360.2,480.5 A360,300 0 0 1 1360.2,619.5" class="ln" stroke="#c2410c" marker-end="url(#h)"/>
-  <path id="arc3" d="M1240.9,780.1 A360,300 0 0 1 1159.3,823.0" class="ln" marker-end="url(#a)"/>
-  <path id="arc4" d="M860.7,823.0 A360,300 0 0 1 779.1,780.1" class="ln" marker-end="url(#a)"/>
-  <path id="arc5" d="M659.8,619.5 A360,300 0 0 1 659.8,480.5" class="ln" marker-end="url(#a)"/>
-  <text x="628" y="540" text-anchor="end" class="cap">다음 날</text>
-  <text x="628" y="562" text-anchor="end" class="cap">초안을 바꾼다</text>
-  <rect x="563" y="334" width="270" height="132" rx="18" class="auto"/>
-  <circle cx="593" cy="366" r="18" fill="#6366f1"/><text x="593" y="372" text-anchor="middle" class="n">1</text>
-  <text x="623" y="374" class="t">수집</text>
-  <text x="585" y="408" class="s">새 글 · 고민 글 · 새 의뢰</text>
-  <text x="585" y="432" class="cap">Firecrawl</text>
+  <!-- loop (generated: 7 nodes on an ellipse, arrows are arcs of the same ellipse) -->
+  <path d="M360,320 C450,320 480,363 588,363" class="ln" marker-end="url(#a)"/>
+  <path id="arc0" d="M833.3,288.6 A360,300 0 0 1 865.9,275.1" class="ln" marker-end="url(#a)"/>
+  <path id="arc1" d="M1154.1,275.1 A360,300 0 0 1 1186.7,288.6" class="ln" marker-end="url(#a)"/>
+  <path id="arc2" d="M1343.8,437.6 A360,300 0 0 1 1369.9,542.1" class="ln" marker-end="url(#a)"/>
+  <path id="arc3" d="M1327.6,691.3 A360,300 0 0 1 1282.9,745.6" class="ln" stroke="#c2410c" marker-end="url(#h)"/>
+  <path id="arc4" d="M1021.9,849.8 A360,300 0 0 1 998.1,849.8" class="ln" marker-end="url(#a)"/>
+  <path id="arc5" d="M737.1,745.6 A360,300 0 0 1 692.4,691.3" class="ln" marker-end="url(#a)"/>
+  <path id="arc6" d="M650.1,542.1 A360,300 0 0 1 676.2,437.6" class="ln" marker-end="url(#a)"/>
+  <text x="639" y="477" text-anchor="end" class="cap">다음 날</text>
+  <text x="639" y="499" text-anchor="end" class="cap">초안을 바꾼다</text>
+  <rect x="594" y="297" width="270" height="132" rx="18" class="auto"/>
+  <circle cx="624" cy="329" r="18" fill="#6366f1"/><text x="624" y="335" text-anchor="middle" class="n">1</text>
+  <text x="654" y="337" class="t">수집</text>
+  <text x="616" y="371" class="s">새 글 · 고민 글 · 새 의뢰</text>
+  <text x="616" y="395" class="cap">Firecrawl</text>
   <rect x="875" y="184" width="270" height="132" rx="18" class="auto"/>
   <circle cx="905" cy="216" r="18" fill="#6366f1"/><text x="905" y="222" text-anchor="middle" class="n">2</text>
   <text x="935" y="224" class="t">진짜 고객 판정</text>
   <text x="897" y="258" class="s">체크리스트 예/아니오 판정</text>
   <text x="897" y="282" class="cap">마케팅 실무자? 노출 책임?</text>
   <text x="897" y="304" class="cap">경쟁 실행사 홍보글은 탈락</text>
-  <rect x="1187" y="334" width="270" height="132" rx="18" class="auto"/>
-  <circle cx="1217" cy="366" r="18" fill="#6366f1"/><text x="1217" y="372" text-anchor="middle" class="n">3</text>
-  <text x="1247" y="374" class="t">초안 작성</text>
-  <text x="1209" y="408" class="s">방 메시지 · 게시판 글</text>
-  <text x="1209" y="432" class="s">답글 · 의뢰 응답</text>
-  <text x="1209" y="456" class="cap">채널·훅별 UTM 링크</text>
-  <rect x="1187" y="634" width="270" height="132" rx="18" class="human"/>
-  <circle cx="1217" cy="666" r="18" fill="#ea580c"/><text x="1217" y="672" text-anchor="middle" class="n">4</text>
-  <text x="1247" y="674" class="t">사람이 게시</text>
-  <text x="1209" y="708" class="s">아이보스에 직접 등록</text>
-  <text x="1209" y="732" class="s">loop log 로 한 줄 기록</text>
-  <text x="1209" y="756" class="cap">자동 게시 안 함</text>
-  <rect x="875" y="784" width="270" height="132" rx="18" class="auto"/>
-  <circle cx="905" cy="816" r="18" fill="#6366f1"/><text x="905" y="822" text-anchor="middle" class="n">5</text>
-  <text x="935" y="824" class="t">측정</text>
-  <text x="897" y="858" class="s">조회수 · 좋아요 · 댓글</text>
-  <text x="897" y="882" class="cap">+ 고객 반응 · 리드 회신 · UTM</text>
-  <rect x="563" y="634" width="270" height="132" rx="18" class="auto"/>
-  <circle cx="593" cy="666" r="18" fill="#6366f1"/><text x="593" y="672" text-anchor="middle" class="n">6</text>
-  <text x="623" y="674" class="t">학습</text>
-  <text x="585" y="708" class="s">스코어카드 → learnings.md</text>
-  <text x="585" y="732" class="cap">잘 된 것 / 안 된 것</text>
-  <text x="585" y="754" class="cap">내일 바꿀 것 1~2개</text>
+  <rect x="1156" y="297" width="270" height="132" rx="18" class="auto"/>
+  <circle cx="1186" cy="329" r="18" fill="#6366f1"/><text x="1186" y="335" text-anchor="middle" class="n">3</text>
+  <text x="1216" y="337" class="t">초안 작성</text>
+  <text x="1178" y="371" class="s">방 메시지 · 게시판 글</text>
+  <text x="1178" y="395" class="s">답글 · 의뢰 응답</text>
+  <text x="1178" y="419" class="cap">채널·훅별 UTM 링크</text>
+  <rect x="1226" y="551" width="270" height="132" rx="18" class="auto"/>
+  <circle cx="1256" cy="583" r="18" fill="#6366f1"/><text x="1256" y="589" text-anchor="middle" class="n">4</text>
+  <text x="1286" y="591" class="t">카톡으로 받기</text>
+  <text x="1248" y="625" class="s">방별 초안 → 나와의 채팅</text>
+  <text x="1248" y="649" class="s">복사해서 바로 붙여넣기</text>
+  <text x="1248" y="673" class="cap">카카오 나에게 보내기 API</text>
+  <rect x="1031" y="754" width="270" height="132" rx="18" class="human"/>
+  <circle cx="1061" cy="786" r="18" fill="#ea580c"/><text x="1061" y="792" text-anchor="middle" class="n">5</text>
+  <text x="1091" y="794" class="t">사람이 게시</text>
+  <text x="1053" y="828" class="s">아이보스·오픈채팅에 등록</text>
+  <text x="1053" y="852" class="s">loop log 로 한 줄 기록</text>
+  <text x="1053" y="876" class="cap">자동 게시 안 함</text>
+  <rect x="719" y="754" width="270" height="132" rx="18" class="auto"/>
+  <circle cx="749" cy="786" r="18" fill="#6366f1"/><text x="749" y="792" text-anchor="middle" class="n">6</text>
+  <text x="779" y="794" class="t">측정</text>
+  <text x="741" y="828" class="s">조회수 · 좋아요 · 댓글</text>
+  <text x="741" y="852" class="cap">+ 고객 반응 · 리드 회신 · UTM</text>
+  <rect x="524" y="551" width="270" height="132" rx="18" class="auto"/>
+  <circle cx="554" cy="583" r="18" fill="#6366f1"/><text x="554" y="589" text-anchor="middle" class="n">7</text>
+  <text x="584" y="591" class="t">학습</text>
+  <text x="546" y="625" class="s">스코어카드 → learnings.md</text>
+  <text x="546" y="649" class="cap">잘 된 것 / 안 된 것</text>
+  <text x="546" y="671" class="cap">내일 바꿀 것 1~2개</text>
 
   <!-- north star center -->
   <circle cx="1010" cy="550" r="150" fill="#0f172a"/>
