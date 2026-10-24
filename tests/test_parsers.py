@@ -48,3 +48,18 @@ def test_with_utm():
     for part in ["utm_source=iboss", "utm_medium=room-beauty", "utm_campaign=x", "utm_content=h-x-1"]:
         assert part in u
     assert "q=1" in with_utm("https://a.b/?q=1", "m", "c", "h")
+
+
+def test_lead_cards():
+    from loop.iboss import parse_lead_cards
+
+    cards = parse_lead_cards((FIX / "leads.md").read_text())
+    by_url = {c.url: c for c in cards}
+    aeo = by_url["https://www.i-boss.co.kr/ab-1958-88890"]
+    assert aeo.title == "안녕하세요 AEO ㆍGEO 문의 드립니다."
+    assert "광고 대행사" in aeo.summary
+    assert not aeo.closed
+    place = by_url["https://www.i-boss.co.kr/ab-1958-88896"]
+    assert place.closed
+    assert place.industry == "병원"
+    assert place.budget.startswith("월간최소 10만원")

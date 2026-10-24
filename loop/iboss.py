@@ -59,3 +59,29 @@ def parse_board_rows(md: str) -> list[BoardRow]:
 def is_relevant(title: str) -> bool:
     t = title.lower()
     return any(k.lower() in t for k in KEYWORDS)
+
+
+@dataclass(frozen=True)
+class LeadCard:
+    title: str
+    url: str
+    summary: str
+    closed: bool
+    budget: str
+    industry: str
+    date: str
+
+
+_CARD = re.compile(
+    r"\[(?P<closed>_\\\[마감\\\]_ )?(?P<title>[^\[\]\\]+?)\\\\\n\\\\\n(?P<summary>[^\]]*)\]"
+    r"\((?P<url>https://www\.i-boss\.co\.kr/ab-1958-\d+)\)"
+    r"(?:\s*\n\s*\[[^\]]+\]\([^)]+\) 예산 _(?P<budget>[^_]*)_업종 _(?P<industry>[^_]*)_등록일 _(?P<date>[^_]*)_)?",
+)
+
+
+def parse_lead_cards(md: str) -> list[LeadCard]:
+    return [
+        LeadCard(m["title"].strip(), m["url"], m["summary"].strip(), bool(m["closed"]),
+                 m["budget"] or "", m["industry"] or "", m["date"] or "")
+        for m in _CARD.finditer(md)
+    ]
