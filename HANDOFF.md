@@ -9,7 +9,7 @@
 ## 남은 일
 1. **제출 (17:38 마감)**: 레포가 비공개이므로 심사 측 GitHub 계정을 협업자로 추가하거나 공개로 바꾼 뒤 Discord에 링크 제출.
 2. **매일 실행 (10/25~10/31)**: 매일 09:00 KST에 `uv run python -m loop run` 후 `data/ out/ learnings.md`를 커밋·푸시.
-   - 필요한 비밀값: `FIRECRAWL_API_KEY`.
+   - 수집은 `curl_cffi`(API 키 불필요). 아이보스가 데이터센터 IP를 막으므로 집 Mac에서 실행한다.
    - LLM 단계는 `claude -p`를 호출한다. 실행 환경에 `claude` CLI가 없으면 판정·학습·초안 단계가 `out/<날짜>/errors.md`에 오류를 남기고 측정·스코어카드만 생성된다. 그 경우 `loop/llm.py`의 `ask()`를 그 환경에서 쓸 수 있는 LLM 호출로 바꾼다.
 3. **사람이 매일 할 일**: `out/<오늘>/drafts.md` 확인 → 아이보스에 직접 게시 → `python -m loop log ...`로 기록(README 참고). 반응(댓글·쪽지·의뢰 회신)은 `--kind response`로 기록 — 이것이 North Star.
 4. **선택**: GA4 서비스 계정 키·속성 ID를 받으면 UTM 유입을 스코어카드에 추가.
@@ -18,4 +18,4 @@
 ## 참고
 - 설계: `docs/superpowers/specs/2026-10-24-iboss-gtm-loop-design.md`
 - 계획: `docs/superpowers/plans/2026-10-24-iboss-gtm-loop.md`
-- 아이보스는 Cloudflare가 일반 HTTP를 403으로 막는다 → Firecrawl만 사용. Firecrawl 429는 자동 재시도.
+- 아이보스는 Cloudflare가 일반 HTTP와 데이터센터 IP를 403으로 막는다 → 가정용 회선에서 `curl_cffi`(Chrome 지문)로 수집. 10/25부터 Firecrawl(크레딧 소진)을 대체. 429/503은 자동 재시도.

@@ -5,10 +5,11 @@ from loop.iboss import BoardRow, PostStats, is_relevant, parse_board_rows, parse
 from loop.utm import with_utm
 
 FIX = Path(__file__).parent / "fixtures"
+HTML = FIX / "html"  # i-boss pages as fetched (curl_cffi), 2026-10-25
 
 
 def test_post_stats_parses_comma_numbers():
-    assert parse_post_stats((FIX / "post.md").read_text()) == PostStats(1896, 13, 20)
+    assert parse_post_stats((HTML / "post.html").read_text()) == PostStats(1981, 13, 20)
 
 
 def test_post_stats_missing():
@@ -16,10 +17,12 @@ def test_post_stats_missing():
 
 
 def test_board_rows():
-    rows = parse_board_rows((FIX / "board.md").read_text())
-    assert len(rows) == 3
-    assert rows[1] == BoardRow("블로그 노출 현황들 여쭙습니다,,,", "https://www.i-boss.co.kr/ab-6141-72783", "10.20", 1897, 13, 20)
-    assert rows[2].comments == 0
+    rows = parse_board_rows((HTML / "board.html").read_text())
+    assert len(rows) >= 20
+    by_url = {r.url: r for r in rows}
+    assert by_url["https://www.i-boss.co.kr/ab-6141-72783"] == BoardRow(
+        "블로그 노출 현황들 여쭙습니다,,,", "https://www.i-boss.co.kr/ab-6141-72783", "10.20", 1982, 13, 20)
+    assert any(r.comments == 0 for r in rows)
 
 
 def test_is_relevant():
@@ -53,7 +56,7 @@ def test_with_utm():
 def test_lead_cards():
     from loop.iboss import parse_lead_cards
 
-    cards = parse_lead_cards((FIX / "leads.md").read_text())
+    cards = parse_lead_cards((HTML / "leads.html").read_text())
     by_url = {c.url: c for c in cards}
     aeo = by_url["https://www.i-boss.co.kr/ab-1958-88890"]
     assert aeo.title == "안녕하세요 AEO ㆍGEO 문의 드립니다."
@@ -68,12 +71,16 @@ def test_lead_cards():
 def test_post_body_skips_site_menu():
     from loop.iboss import post_body
 
-    md = "[메뉴](https://x)\n" * 800 + (FIX / "post.md").read_text()
-    assert post_body(md).startswith("# 블로그 노출 현황들 여쭙습니다")
-    assert post_body("no heading at all") == "no heading at all"
+    body = post_body((HTML / "post.html").read_text())
+    assert body.startswith("요즘 네이버 통검")
+    assert "통합검색" not in body and "<" not in body
+    assert post_body("<p>no article body</p>") == ""
 
 
 def test_board_row_posted_today_shows_time():
-    md = "| AEO·GEO [강남 피부과, 네이버 지도 1위와 AI가 고르는 병원은 달랐습니다](https://www.i-boss.co.kr/ab-6141-72900&tag=AEO+GEO \"t\") | aeobot | **16:07** | 1 | 0 |"
-    rows = parse_board_rows(md)
+    html = ('<tr class="_t"><td><div class="articleSubject"><a href="ab-6141-72900&tag=AEO+GEO" title="강남 피부과" '
+            'class="mb_subject like_0">강남 피부과</a></div></td><td><p class="mb_writer"><span>aeobot</span></p></td>'
+            '<td class="DateTime font_num"><strong>16:07</strong></td><td class="ViewCount font_num">1</td>'
+            '<td class="voteCount">0</td></tr>')
+    rows = parse_board_rows(html)
     assert rows and rows[0].date == "16:07"

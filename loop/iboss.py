@@ -1,10 +1,14 @@
-"""Parse i-boss pages as Firecrawl returns them (markdown)."""
+"""Parse i-boss pages from their HTML (fetched with a Chrome TLS fingerprint, see loop.web)."""
 
 from __future__ import annotations
 
 import re
 from dataclasses import dataclass
+from urllib.parse import urljoin
 
+from bs4 import BeautifulSoup
+
+BASE = "https://www.i-boss.co.kr/"
 KEYWORDS = (
     "AEO", "GEO", "AI 검색", "AI 브리핑", "챗GPT", "ChatGPT", "제미나이", "Gemini",
     "퍼플렉시티", "Perplexity", "블로그 노출", "통검", "블탭", "상위노출", "SEO", "검색최적화",
@@ -28,39 +32,6 @@ class BoardRow:
     comments: int
 
 
-def _int(s: str) -> int:
-    return int(s.replace(",", ""))
-
-
-def parse_post_stats(md: str) -> PostStats | None:
-    found = {}
-    for label in ("조회수", "좋아요", "댓글"):
-        m = re.search(rf"^{label}\s+([\d,]+)\s*$", md, re.M)
-        if not m:
-            return None
-        found[label] = _int(m.group(1))
-    return PostStats(found["조회수"], found["좋아요"], found["댓글"])
-
-
-_ROW = re.compile(
-    r"^\|[^|\[]*\[(?P<title>[^\]]+)\]\((?P<url>https://www\.i-boss\.co\.kr/ab-[\d-]+)[^)]*\)\s*(?P<cmt>[\d,]*)\s*"
-    r"\|[^|]*\|\s*\*{0,2}(?P<date>[\d.:]+)\*{0,2}\s*\|\s*(?P<views>[\d,]+)\s*\|\s*(?P<likes>[\d,]+)\s*\|",
-    re.M,
-)
-
-
-def parse_board_rows(md: str) -> list[BoardRow]:
-    return [
-        BoardRow(m["title"].strip(), m["url"], m["date"], _int(m["views"]), _int(m["likes"]), _int(m["cmt"] or "0"))
-        for m in _ROW.finditer(md)
-    ]
-
-
-def is_relevant(title: str) -> bool:
-    t = title.lower()
-    return any(k.lower() in t for k in KEYWORDS)
-
-
 @dataclass(frozen=True)
 class LeadCard:
     title: str
@@ -72,23 +43,75 @@ class LeadCard:
     date: str
 
 
-_CARD = re.compile(
-    r"\[(?P<closed>_\\\[마감\\\]_ )?(?P<title>[^\[\]\\]+?)\\\\\n\\\\\n(?P<summary>[^\]]*)\]"
-    r"\((?P<url>https://www\.i-boss\.co\.kr/ab-1958-\d+)\)"
-    r"(?:\s*\n\s*\[[^\]]+\]\([^)]+\) 예산 _(?P<budget>[^_]*)_업종 _(?P<industry>[^_]*)_등록일 _(?P<date>[^_]*)_)?",
-)
+def _int(s: str) -> int:
+    digits = re.sub(r"[^\d]", "", s or "")
+    return int(digits) if digits else 0
 
 
-def parse_lead_cards(md: str) -> list[LeadCard]:
-    return [
-        LeadCard(m["title"].strip(), m["url"], m["summary"].strip(), bool(m["closed"]),
-                 m["budget"] or "", m["industry"] or "", m["date"] or "")
-        for m in _CARD.finditer(md)
-    ]
+def _text(node) -> str:
+    return re.sub(r"\s+", " ", node.get_text(" ", strip=True)).strip() if node else ""
 
 
-def post_body(md: str) -> str:
-    """Firecrawl's full-page markdown starts with ~10 KB of site menu; return from the post's own heading."""
-    i = md.find("\n조회수 ")
-    start = md.rfind("\n# ", 0, i) if i > 0 else md.find("\n# ")
-    return md[start + 1:] if start >= 0 else md
+def _post_url(href: str) -> str:
+    """'ab-6141-72783&tag=AEO+GEO' → 'https://www.i-boss.co.kr/ab-6141-72783'."""
+    return urljoin(BASE, re.match(r"/?(ab-[\d-]+)", href).group(1))
+
+
+def parse_post_stats(html: str) -> PostStats | None:
+    state = BeautifulSoup(html, "html.parser").select_one(".article-state")
+    if state is None:
+        return None
+    found = dict(re.findall(r"(조회수|좋아요|댓글)\s*([\d,]+)", _text(state)))
+    if len(found) < 3:
+        return None
+    return PostStats(_int(found["조회수"]), _int(found["좋아요"]), _int(found["댓글"]))
+
+
+def parse_board_rows(html: str) -> list[BoardRow]:
+    rows = []
+    for tr in BeautifulSoup(html, "html.parser").select("tr._t"):
+        link = tr.select_one("a.mb_subject")
+        if link is None or not re.match(r"/?ab-\d+-\d+", link.get("href", "")):
+            continue
+        rows.append(BoardRow(
+            title=link.get("title") or _text(link),
+            url=_post_url(link["href"]),
+            date=_text(tr.select_one("td.DateTime")),
+            views=_int(_text(tr.select_one("td.ViewCount"))),
+            likes=_int(_text(tr.select_one("td.voteCount"))),
+            comments=_int(_text(tr.select_one(".AB-comm"))),
+        ))
+    return rows
+
+
+def is_relevant(title: str) -> bool:
+    t = title.lower()
+    return any(k.lower() in t for k in KEYWORDS)
+
+
+def parse_lead_cards(html: str) -> list[LeadCard]:
+    cards = []
+    for box in BeautifulSoup(html, "html.parser").select(".bd_open, .bd_closed"):
+        link = box.select_one(".txt a[href*='ab-1958-']")
+        if link is None:
+            continue
+        subject = box.select_one(".subject")
+        closed_tag = subject.select_one("em.closed") if subject else None
+        if closed_tag:
+            closed_tag.extract()
+        budget = box.select_one(".budget em")
+        cards.append(LeadCard(
+            title=_text(subject),
+            url=_post_url(link["href"]),
+            summary=_text(box.select_one(".comment_1")),
+            closed="bd_closed" in box.get("class", []),
+            budget=_text(budget).replace(" ", "", 1) if budget else "",
+            industry=_text(box.select_one(".BDU_tob em")),
+            date=_text(box.select_one(".sign_date em")),
+        ))
+    return cards
+
+
+def post_body(html: str) -> str:
+    """Plain text of the article body, without the site menu around it."""
+    return _text(BeautifulSoup(html, "html.parser").select_one(".ABA-view-body"))

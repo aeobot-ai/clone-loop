@@ -54,3 +54,11 @@ def test_conversions_counted_and_kept_out_of_post_tables():
     assert "유료 전환: **1** / 목표 1" in out
     assert "board-aeo 1 · lead 2" in out
     assert "| board-aeo | 1 | 10 | 0 | 0 | +10 |" in out  # diagnosis rows are not posts
+
+
+def test_unmeasured_channel_is_not_reported_as_zero():
+    ledger = [L("board-aeo", "post", "u1"), L("eopla-marketing", "post", "https://eopla.net/magazines/1")]
+    metrics = [{"date": "2026-10-25", "url": "u1", "views": 10, "likes": 0, "comments": 0}]
+    out = build_scorecard(ledger, metrics, [], [], "2026-10-25")
+    assert "| eopla-marketing | 1 | 측정 안 됨 | 측정 안 됨 | 측정 안 됨 | 측정 안 됨 |" in out
+    assert "| board-aeo | 1 | 10 | 0 | 0 | +10 |" in out

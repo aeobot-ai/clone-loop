@@ -25,16 +25,20 @@ def _table(title: str, key, ledger: list[LedgerRow], latest: dict[str, list[dict
             groups[key(r)].append(r)
     lines = [f"### {title}", "", "| 이름 | 게시 수 | 조회 | 좋아요 | 댓글 | 전날 대비 조회 |", "|---|---|---|---|---|---|"]
     for name, rows in sorted(groups.items()):
-        views = likes = comments = delta = 0
+        views = likes = comments = delta = measured = 0
         for url in {r.url for r in rows}:  # a thread logged twice (post + reply) is still one page
             hist = latest.get(url, [])
             if not hist:
                 continue
+            measured += 1
             views += hist[-1]["views"]
             likes += hist[-1]["likes"]
             comments += hist[-1]["comments"]
             delta += hist[-1]["views"] - (hist[0]["views"] if len(hist) == 2 else 0)
-        lines.append(f"| {name} | {len(rows)} | {views} | {likes} | {comments} | {delta:+d} |")
+        if not measured:  # e.g. a site the loop cannot read yet; never report that as zero
+            lines.append(f"| {name} | {len(rows)} | 측정 안 됨 | 측정 안 됨 | 측정 안 됨 | 측정 안 됨 |")
+        else:
+            lines.append(f"| {name} | {len(rows)} | {views} | {likes} | {comments} | {delta:+d} |")
     return lines + [""]
 
 

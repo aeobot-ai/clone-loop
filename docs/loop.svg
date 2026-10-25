@@ -48,7 +48,7 @@
   <circle cx="624" cy="329" r="18" fill="#6366f1"/><text x="624" y="335" text-anchor="middle" class="n">1</text>
   <text x="654" y="337" class="t">수집</text>
   <text x="616" y="371" class="s">새 글 · 고민 글 · 새 의뢰</text>
-  <text x="616" y="395" class="cap">Firecrawl</text>
+  <text x="616" y="395" class="cap">curl_cffi (Chrome 지문)</text>
   <rect x="875" y="184" width="270" height="132" rx="18" class="auto"/>
   <circle cx="905" cy="216" r="18" fill="#6366f1"/><text x="905" y="222" text-anchor="middle" class="n">2</text>
   <text x="935" y="224" class="t">진짜 고객 판정</text>

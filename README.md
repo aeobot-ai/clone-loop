@@ -67,12 +67,11 @@ uv run python -m loop log --channel lead --kind paid --note "유료 플랜 계�
 
 ```sh
 uv sync
-echo "FIRECRAWL_API_KEY=..." > .env
 uv run python -m loop run      # 하루 한 바퀴
 uv run pytest                  # 테스트
 ```
 
-LLM 단계는 headless Claude Code(`claude -p`)를 씁니다. 매일 09:00 KST 자동 실행:
+아이보스는 Cloudflare가 데이터센터 IP와 일반 HTTP 클라이언트를 403으로 막습니다. 그래서 수집은 가정용 회선(집의 Mac)에서 `curl_cffi`로 Chrome TLS 지문을 써서 합니다. API 키가 필요 없습니다. LLM 단계는 headless Claude Code(`claude -p`)를 씁니다. 매일 09:00 KST 자동 실행:
 
 ```cron
 0 9 * * * /path/to/clone-loop/scripts/daily.sh >> /tmp/clone-loop.log 2>&1

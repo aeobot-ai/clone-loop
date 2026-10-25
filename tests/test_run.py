@@ -19,10 +19,10 @@ def setup_root(tmp_path):
 
 def fake_scrape(url):
     if "ab-1957" in url:
-        return (FIX / "leads.md").read_text()
+        return (FIX / "html" / "leads.html").read_text()
     if "ab-6141-" in url or "ab-1958-" in url:
-        return (FIX / "post.md").read_text()
-    return (FIX / "board.md").read_text()
+        return (FIX / "html" / "post.html").read_text()
+    return (FIX / "html" / "board.html").read_text()
 
 
 def fake_get(url):
@@ -130,8 +130,10 @@ def test_threads_spread_across_boards(tmp_path):
 
     def scrape(url):
         if "ab-6140?tag=AEO" in url:
-            rows = "\n".join(f"| [GEO 글 {n}](https://www.i-boss.co.kr/ab-6141-9{n:03d}) | a | 10.2{n % 9} | 1 | 0 |" for n in range(10))
-            return rows
+            return "".join(
+                f'<tr class="_t"><td><a href="ab-6141-9{n:03d}&tag=AEO+GEO" title="GEO 글 {n}" class="mb_subject">GEO 글 {n}</a></td>'
+                f'<td class="DateTime">10.2{n % 9}</td><td class="ViewCount">1</td><td class="voteCount">0</td></tr>'
+                for n in range(10))
         return fake_scrape(url)
 
     run_day(TODAY, root, scrape, fake_get, fake_ask)
