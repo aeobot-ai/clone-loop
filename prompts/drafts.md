@@ -40,4 +40,6 @@
 ## 4. 의뢰 응답
 리드마다 `### <의뢰 제목>` + URL + 제안 본문(의뢰 업종에 맞춘 AI 답변 노출 무료 진단 제안, aeobot 측정 사례 하나). 리드가 없으면 "없음".
 ## 5. 오늘 기록할 것
-게시한 뒤 실행할 `python -m loop log ...` 명령 예시를 초안마다 한 줄씩.
+게시한 뒤 실행할 명령을 초안마다 한 줄씩. 형식은 이것뿐이다(다른 하위 명령·옵션은 없다):
+`uv run python -m loop log --channel <채널> --kind <post|reply|chat|lead-reply> --url <게시한 URL> --hook <훅 id> --campaign <블로그 slug>`
+의뢰 응답은 `--channel lead --kind lead-reply --url <의뢰 URL>`로 적는다.

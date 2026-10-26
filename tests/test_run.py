@@ -125,6 +125,27 @@ def test_judge_failure_retries_leads_next_day(tmp_path):
     assert judge.count("### https://www.i-boss.co.kr/ab-1958-88890") == 1
 
 
+def test_open_lead_passed_earlier_stays_in_drafts_until_replied(tmp_path):
+    root = setup_root(tmp_path)
+    run_day(TODAY, root, fake_scrape, fake_get, fake_ask)
+    prompts = []
+
+    def ask(p):
+        prompts.append(p)
+        return fake_ask(p)
+
+    lead = "https://www.i-boss.co.kr/ab-1958-88890"
+    run_day("2026-10-25", root, fake_scrape, fake_get, ask)
+    drafts = [p for p in prompts if "사람이 직접 올릴 초안" in p][-1]
+    assert lead in drafts
+
+    append_ledger(root / "data/ledger.csv", LedgerRow("2026-10-25", "lead", "lead-reply", lead, "", "", ""))
+    prompts.clear()
+    run_day("2026-10-26", root, fake_scrape, fake_get, ask)
+    drafts = [p for p in prompts if "사람이 직접 올릴 초안" in p][-1]
+    assert lead not in drafts
+
+
 def test_threads_spread_across_boards(tmp_path):
     root = setup_root(tmp_path)
 

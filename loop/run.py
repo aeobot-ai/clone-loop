@@ -115,6 +115,8 @@ def run_day(
     all_targets = _read_jsonl(targets_path)
     judged = {t["url"] for t in all_targets if t["date"] != today} | {r.url for r in ledger if r.url}  # skip our own posts
     verdicts: dict[str, dict] = {t["url"]: t for t in all_targets if t["date"] == today}
+    earlier = {t["url"]: t for t in all_targets if t["date"] != today}
+    pending_leads: list[dict] = []
 
     def threads():
         found = []
@@ -144,13 +146,20 @@ def run_day(
             {"found": today, "url": c.url, "title": c.title, "category": cat} for cat, c in cards
         ])
         # Offer every open lead not judged on an earlier day, so a failed judge/drafts day is retried.
+        # Leads that passed on an earlier day stay in the drafts until someone logs a lead-reply.
+        replied = {r.url for r in ledger if r.kind == "lead-reply"}
         items, seen = [], set()
         for _, c in cards:
-            if c.url in judged or c.url in seen:
+            if c.url in seen or c.url in replied:
                 continue
             seen.add(c.url)
-            items.append({"kind": "lead", "channel": "lead", "url": c.url, "title": c.title, "body": c.summary,
-                          "budget": c.budget, "industry": c.industry})
+            item = {"kind": "lead", "channel": "lead", "url": c.url, "title": c.title, "body": c.summary,
+                    "budget": c.budget, "industry": c.industry}
+            if c.url not in judged:
+                items.append(item)
+            elif earlier.get(c.url, {}).get("pass"):
+                verdicts.setdefault(c.url, earlier[c.url])
+                pending_leads.append(item)
         return items
 
     lead_items = step("leads", leads) or []
@@ -205,7 +214,7 @@ def run_day(
             room_ids=", ".join(ROOMS),
             learnings=learnings_path.read_text(encoding="utf-8"),
             posts="\n\n".join(f"### {p.title} (slug: {p.slug}, {p.published})\n{p.text}" for p in posts) or "없음",
-            threads=fmt(passed(thread_items)), leads=fmt(passed(lead_items)))
+            threads=fmt(passed(thread_items)), leads=fmt(passed(lead_items) + pending_leads))
         text = _fill_utm(ask(prompt))
         (out / "drafts.md").write_text(text + "\n", encoding="utf-8")
         return text
