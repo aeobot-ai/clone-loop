@@ -1,56 +1,93 @@
 # 초안 2026-10-26
-> 학습 반영: ① 대행의뢰 리드 5건 연락은 오늘 초안에 넣지 못했습니다. 입력에 리드 원문(제목·URL·업종)이 "없음"으로 와서 제안문을 쓸 수 없습니다. 아래 5번에 리드 목록을 확인하고 상태를 바꾸는 명령을 적었습니다. 원문을 주시면 업종별 무료 진단 제안을 바로 쓰겠습니다. ② "board-aeo 글에 무료 진단을 직접 권한다"는 지침은 신뢰 쌓기 기간 규칙(게시판 글은 정보 공유형, 직접 홍보 금지)과 충돌합니다. 그래서 오늘 새 글에는 진단 문구를 넣지 않았습니다. 대신 댓글 0을 깨기 위해 마케터가 답하기 쉬운 질문으로 글을 끝냈습니다. 기존 h-supplements-best5-1 글에 진단 문구를 추가할지는 결정해 주세요.
+> 학습 반영: (1) 오늘 받은 대행의뢰 리드 4건 모두에 무료 진단 제안 회신을 쓰고, 게시 뒤 `lead-reply`로 기록해 리드 상태가 new에서 넘어가게 했습니다. (2) 게시판 글에 무료 진단 권유를 넣으면 "가입 초기 홍보 금지" 규칙과 부딪혀서 넣지 않았습니다. 대신 글 끝에 실무자가 답하기 쉬운 질문을 두어 댓글을 먼저 노렸고, 이미 올린 h-supplements-best5-1 글을 고치는 일은 사람 판단으로 남겼습니다.
 
 ## 1. 오픈채팅방 메시지
 
 ### room-ai
-요즘 브랜드 노출을 AI로 확인하는 분들이 많아서 하나 공유드립니다. 전기요 추천 질문을 Gemini에 30번 물었더니 5번은 "저는 언어 모델이라서 그것은 도와드릴 수가 없습니다"라고 답을 거절했습니다. "전기요 추천해줘"처럼 평범한 질문이었고, 같은 질문을 다시 물었을 때는 브랜드를 꼽아 답한 적이 있었습니다. 한 번만 물어보고 "우리 브랜드가 안 나온다"고 판단하면 틀릴 수 있다는 얘기입니다. 다들 AI 답변을 확인할 때 같은 질문을 몇 번씩 물어보시나요?
+AI로 콘텐츠 초안을 쓸 때 숫자 검증을 어디까지 하시나요? 전기요 질문 10개를 AI 5곳에 3번씩 물어 답변 135건을 봤습니다. 같은 Gemini가 같은 질문에 EMF 인증 기준을 한 번은 "전기장 10V/m 이하"로 맞게, 다른 한 번은 "30V/m 이하"로 다르게 답했습니다. Gemini는 "전기요 추천해줘" 같은 평범한 질문 30건 중 5건을 거절하기도 했는데, 같은 질문을 다시 물으면 브랜드를 꼽아 답한 적이 있었습니다. 업무에 AI 답변을 쓰실 때 같은 질문을 여러 번 돌려 보시는지, 아니면 공식 자료로 바로 확인하시는지 궁금합니다.
 
 ### room-content
-콘텐츠 기획하시는 분들께 참고가 될 만한 관찰입니다. 커피 프랜차이즈 질문 10개를 AI 4곳에 물었는데, 답변에 인용된 출처는 네이버 블로그(32회)와 유튜브(29회)가 가장 많았고 네이버 카페(19회)가 뒤를 이었습니다. 브랜드 공식 사이트는 인용 상위 10개 도메인에 없었습니다(리포트별 상위 10개 도메인만 집계한 값이라 전체 인용 수는 아닙니다). 브랜드 콘텐츠를 만들 때 공식 채널과 블로그·카페 중 어디에 더 힘을 주고 계신지 궁금합니다.
+블로그 콘텐츠를 기획할 때 "AI가 이 글을 인용할까"도 따져 보시나요? 커피 프랜차이즈 질문으로 AI 답변을 모아 인용 출처 도메인을 세 보니 네이버 블로그(32회)와 유튜브(29회)가 가장 많았고, 네이버 카페(19회)가 뒤를 이었습니다. 브랜드 공식 사이트는 상위 10개에 없었습니다. 리포트마다 상위 10개 도메인만 집계한 값이라 전체 인용 수는 아닙니다. 브랜드 블로그를 운영하시는 분들은 공식 채널과 블로그 체험단 콘텐츠 사이에서 비중을 어떻게 나누고 계신지 궁금합니다.
+측정 방법 원문: https://aeobot.ai/blog/korea-coffee-brands-ai/?utm_source=iboss&utm_medium=room-content&utm_campaign=korea-coffee-brands-ai&utm_content=h-korea-coffee-brands-ai-1
 
 ## 2. 게시판 글
 
 ### board-aeo
-**제목: 같은 "전기요 추천" 질문, AI 5곳이 맨 먼저 꺼낸 브랜드가 다 달랐습니다**
+**제목: 전기요를 AI 5곳에 물었더니 네이버 AI 브리핑은 절반 넘게 브랜드를 꼽지 않았습니다 (답변 135건 관찰)**
 
-브랜드의 AI 답변 노출을 보는 분들께 참고가 될 만한 측정 기록을 공유합니다. 제품 평가가 아니라 AI 답변에 무엇이 나왔는지만 정리한 내용입니다.
+날이 추워지면서 "전기요 추천해줘" 같은 질문이 늘고 있어서, AI 답변에 어떤 브랜드가 나오는지 직접 확인해 봤습니다. 제품을 평가하는 글이 아니라 답변에 무엇이 나왔는지를 적은 관찰 기록입니다.
 
 **측정 방법**
-- 2026년 10월 25~26일, 전기요 관련 질문 10개를 ChatGPT, Perplexity, Gemini, Google AI 개요, 네이버 AI 브리핑에 각 3회씩 물었습니다(총 150건).
-- 답변을 읽을 수 있었던 135건을 집계했습니다. ChatGPT 9건은 답변을 불러오지 못했고, Google과 네이버는 각각 3건에서 AI 답변이 나오지 않았습니다.
+- 2026년 10월 25~26일에 ChatGPT, Perplexity, Gemini, Google AI 개요, 네이버 AI 브리핑에 물었습니다.
+- 질문 10개를 AI마다 3번씩 물어 답변 135건을 분석했습니다.
 - 로그인하지 않은 환경에서 물었습니다.
 
 **관찰한 것**
-1. **전체 1·2위는 비슷했습니다.** 한일의료기가 답변 135건 중 62건(46%), 보국전자가 59건(44%)에 나왔습니다.
-2. **그다음부터는 AI마다 달랐습니다.** 이메텍은 Google AI 개요 답변의 59%에 나왔지만 네이버 AI 브리핑에는 한 번도 나오지 않았습니다. 일월은 ChatGPT 답변의 43%, Google AI 개요 답변의 11%에 나왔습니다.
-3. **맨 먼저 소개한 브랜드도 달랐습니다.** ChatGPT와 네이버는 한일의료기, Gemini는 보국전자, Google AI 개요는 경동나비엔을 가장 자주 첫머리에 놓았습니다.
-4. **네이버 AI 브리핑은 브랜드를 잘 꼽지 않았습니다.** 브랜드를 물은 질문 8개의 답변 21건 중 12건에서 브랜드 대신 소비전력, 자동 전원 차단, EMF 인증 같은 고르는 기준을 정리했습니다.
-5. **이름이 비슷한 브랜드를 한데 묶은 답변이 있었습니다.** 6건이 "한일의료기 / 곰표한일"처럼 서로 다른 제조사를 한 항목으로 소개했습니다.
+1. **상위 브랜드는 두 곳으로 모였습니다.** 답변 135건에 브랜드 25곳이 나왔고, 그중 12곳은 답변 한 건에만 나왔습니다. 한일의료기는 62건(46%), 보국전자는 59건(44%)에 나왔습니다.
+2. **그다음 순위는 AI마다 달랐습니다.** 이메텍은 Google AI 개요 답변 27건 중 16건(59%)에 나왔지만, ChatGPT에서는 14%, Perplexity에서는 13%였고 네이버 AI 브리핑에는 한 번도 나오지 않았습니다. 답변 맨 앞에 놓인 브랜드도 AI마다 달랐습니다.
+3. **네이버 AI 브리핑은 브랜드 대신 고르는 기준을 줬습니다.** 브랜드를 물은 질문의 답변 21건 중 12건이 브랜드 없이 소비전력, 자동 전원 차단, EMF 인증 같은 기준만 정리했습니다.
+4. **AI는 질문 범위를 넓혀 답했습니다.** 135건 중 104건이 탄소매트를 함께 다뤘습니다. 그래서 다나와 '전기요' 인기상품순 상위 29개에 없는 경동나비엔과 귀뚜라미도 자주 나왔습니다. 반대로 다나와 상위에 있던 위켄드하우스, 크리벨, 엔뚜마노는 AI 답변에 한 번도 나오지 않았습니다.
 
-**실무에서 볼 점**
-- 한 AI에서 잘 나온다고 다른 AI에서도 잘 나오는 것은 아니었습니다.
-- 네이버 AI 브리핑처럼 브랜드 대신 기준을 답하는 경우에는 "언급 여부"만으로는 노출을 판단하기 어렵습니다.
-- 이름이 비슷한 경쟁사가 있는 브랜드는 AI가 두 회사를 섞어 소개하는지 따로 확인해 볼 만합니다.
+**한계**
+- 이틀 동안 한 번 측정한 결과이고, AI 답변은 날마다 바뀔 수 있습니다.
+- 다나와 순위는 10월 25일 밤 한 시점의 한 쇼핑몰 순위라서 전체 시장 점유율이 아닙니다.
 
-**한계:** 이틀 동안 한 번 측정한 결과입니다. AI 답변은 날마다 바뀔 수 있고, 추천과 단순 언급을 구분하지 않았습니다.
+브랜드 담당자 입장에서 보면 3번이 가장 고민되는 부분입니다. 네이버 AI 브리핑에는 브랜드명이 없고 기준만 나오면, 그 답변에 "나왔다"고 볼지 "안 나왔다"고 볼지부터 애매합니다. 클라이언트나 윗선에 AI 노출을 보고하실 때 이런 답변은 어떻게 분류하고 계신지 의견 듣고 싶습니다.
 
-원문(측정 방법과 AI별 수치): https://aeobot.ai/blog/electric-blanket-ai/?utm_source=iboss&utm_medium=board-aeo&utm_campaign=electric-blanket-ai&utm_content=h-electric-blanket-ai-1
-
-담당하시는 브랜드도 AI마다 나오는 정도가 다른지 궁금합니다. 확인해 보셨다면 어떤 AI에서 가장 차이가 컸는지 댓글로 알려 주세요.
+(질문 목록과 AI별 상세 수치: https://aeobot.ai/blog/electric-blanket-ai/?utm_source=iboss&utm_medium=board-aeo&utm_campaign=electric-blanket-ai&utm_content=h-electric-blanket-ai-1)
 
 ## 3. 답글
-없음 (오늘 체크리스트를 통과한 답글 후보가 없습니다.)
+없음 (체크리스트를 통과한 답글 후보가 없습니다)
 
 ## 4. 의뢰 응답
-없음 (오늘 들어온 새 리드가 없습니다. 기존 new 리드 5건은 원문이 입력에 없어 제안문을 쓰지 못했습니다. 위 학습 반영 ①을 참고해 주세요.)
+※ 학습 노트에는 new 리드가 5건으로 적혀 있지만, 오늘 입력에 들어온 리드는 4건입니다. 나머지 1건은 스코어카드에서 URL을 확인해야 합니다.
+
+### 통검 영역 웹사이트 seo 작업 가능한 곳 찾습니다
+https://www.i-boss.co.kr/ab-1958-88939
+
+안녕하세요, AI 검색 노출을 측정하는 aeobot입니다.
+먼저 솔직하게 말씀드리면, 저희는 웹사이트 SEO를 직접 작업하는 업체가 아닙니다. 그래서 요청하신 단가, 노출 기간, A/S 항목에는 답을 드릴 수 없습니다.
+
+다만 통검이 불안정하다고 하셔서 함께 보시면 좋을 부분을 말씀드립니다. 지금 네이버는 통검 위에 AI 브리핑이 뜨는 경우가 있습니다. 저희가 전기요 질문으로 측정해 보니, 네이버 AI 브리핑은 브랜드를 물은 답변 21건 중 12건에서 업체명 없이 고르는 기준만 정리했습니다. 업종마다 결과가 다르기 때문에 집수리·인테리어 키워드에서 AI 브리핑이 업체를 꼽는지, 꼽는다면 어떤 출처를 인용하는지 먼저 보시면 SEO 업체를 고를 때 판단 근거가 됩니다.
+
+원하시면 집수리·인테리어 대표 질문 몇 개로 네이버 AI 브리핑, Google AI 개요, ChatGPT 답변을 무료로 진단해 드리겠습니다. 측정 날짜와 환경도 함께 적어 드립니다. 노출을 약속드리는 서비스는 아니고, 현재 상태를 기록해 드리는 것입니다.
+측정 사례: https://aeobot.ai/blog/electric-blanket-ai/?utm_source=iboss&utm_medium=lead&utm_campaign=electric-blanket-ai&utm_content=h-electric-blanket-ai-2
+
+### 구글 SEO·네이버 검색노출·백링크 구축 및 월 관리 가능한 전문 업체 찾습니다
+https://www.i-boss.co.kr/ab-1958-88835
+
+안녕하세요, AI 검색 노출을 측정하는 aeobot입니다. 저희는 SEO 작업이나 백링크 구축, CPC 운영을 하지 않습니다. 대신 사이트를 여러 개 운영하실 계획이라면 월 관리 성과를 볼 때 참고하실 만한 내용을 말씀드립니다.
+
+구글 검색 결과 위에는 Google AI 개요가 뜨고, 같은 질문이라도 AI마다 꺼내는 이름이 다릅니다. 저희 측정에서 한 브랜드가 Google AI 개요 답변에는 59% 나왔지만 ChatGPT와 Perplexity에서는 13~14%였고, 네이버 AI 브리핑에서는 0%였습니다. 커피 프랜차이즈 측정에서는 AI가 인용한 출처 상위 10개에 브랜드 공식 사이트가 없었고, 네이버 블로그와 유튜브가 가장 많았습니다. 백링크와 SEO 작업이 AI 답변까지 이어지는지는 따로 측정해야 확인할 수 있습니다.
+
+원하시면 운영 중인 사이트의 핵심 질문으로 Google AI 개요, 네이버 AI 브리핑, ChatGPT 답변을 무료로 진단해 드리겠습니다. 업체를 맡기시기 전 기준점으로 쓰실 수 있습니다.
+측정 사례: https://aeobot.ai/blog/korea-coffee-brands-ai/?utm_source=iboss&utm_medium=lead&utm_campaign=korea-coffee-brands-ai&utm_content=h-korea-coffee-brands-ai-2
+
+### SEO/GEO/유튜브숏츠검색노출 건기식/화장품 실행사 찾습니다
+https://www.i-boss.co.kr/ab-1958-88771
+
+안녕하세요, aeobot입니다. 저희는 GEO 답변 작업을 하는 실행사가 아니라, ChatGPT 같은 AI 답변에 브랜드가 어떻게 나오는지 측정하는 쪽입니다. 그래서 실행사를 고르실 때와 작업 효과를 확인하실 때 쓰실 수 있는 기준을 드릴 수 있습니다.
+
+ChatGPT 답변은 같은 질문을 다시 물어도 자주 바뀝니다. 커피 브랜드 측정에서 AI와 질문 조합 26개 중 세 번 모두 같은 브랜드가 맨 앞에 나온 경우는 13개였고, 상위 3개가 세 번 모두 같았던 경우는 7개뿐이었습니다. 그래서 실행사가 보여 주는 화면 한 장으로는 작업 효과를 판단하기 어렵고, 같은 질문을 여러 번 물어 작업 전후를 비교해야 합니다.
+
+건기식·화장품 대표 질문으로 ChatGPT를 포함한 AI 답변에서 브랜드와 경쟁사가 어떻게 나오는지 무료로 진단해 드리겠습니다. 실행사 미팅 전에 기준점으로 쓰실 수 있습니다. 미팅도 가능합니다.
+측정 사례: https://aeobot.ai/blog/korea-coffee-brands-ai/?utm_source=iboss&utm_medium=lead&utm_campaign=korea-coffee-brands-ai&utm_content=h-korea-coffee-brands-ai-3
+
+### 구글검색작업 가능하신분 연락 부탁드립니다
+https://www.i-boss.co.kr/ab-1958-88762
+
+안녕하세요, aeobot입니다. 저희는 구글 검색 작업 실행사가 아니라서 후불 작업은 맡을 수 없습니다. 다만 노출 후 결제로 진행하신다면 "노출"을 어떻게 확인할지가 중요해서 말씀드립니다.
+
+구글 검색 결과 위에 뜨는 Google AI 개요는 같은 질문에도 다른 AI와 결과가 꽤 다릅니다. 저희 전기요 측정에서 Google AI 개요는 답변 하나에 모델명을 평균 1.8개 적었고, 특정 브랜드를 다른 AI보다 4배 넘게 자주 꺼냈습니다. 고객사에 노출을 보고하실 때 일반 검색 결과와 AI 개요를 나눠 보여 주시면 정산 기준이 더 분명해집니다.
+
+필요하시면 맡고 계신 고객사 키워드 몇 개로 Google AI 개요와 다른 AI 답변을 무료로 진단해 드리겠습니다. 고객사 보고 자료로 쓰실 수 있게 측정일과 환경도 함께 적어 드립니다.
+측정 사례: https://aeobot.ai/blog/electric-blanket-ai/?utm_source=iboss&utm_medium=lead&utm_campaign=electric-blanket-ai&utm_content=h-electric-blanket-ai-3
 
 ## 5. 오늘 기록할 것
-CLI 인자 형식은 제가 확인하지 못했습니다. 실행 전에 `python -m loop log --help`로 맞춰 주세요.
-```
-python -m loop log post --channel room-ai --hook h-electric-blanket-ai-2 --url <방 메시지 링크 또는 none>
-python -m loop log post --channel room-content --hook h-korea-coffee-brands-ai-1 --url <방 메시지 링크 또는 none>
-python -m loop log post --channel board-aeo --slug electric-blanket-ai --hook h-electric-blanket-ai-1 --url <게시글 URL>
-python -m loop leads --status new                                   # 리드 5건 원문 확인 → 초안 요청
-python -m loop log lead --id <리드 id> --status contacted            # 연락한 리드마다 한 줄씩
-```
+- `uv run python -m loop log --channel room-ai --kind chat --url https://www.i-boss.co.kr/ab-5545-149 --hook h-electric-blanket-ai-4 --campaign electric-blanket-ai`
+- `uv run python -m loop log --channel room-content --kind chat --url https://www.i-boss.co.kr/ab-5545-146 --hook h-korea-coffee-brands-ai-1 --campaign korea-coffee-brands-ai`
+- `uv run python -m loop log --channel board-aeo --kind post --url <게시한 URL> --hook h-electric-blanket-ai-1 --campaign electric-blanket-ai`
+- `uv run python -m loop log --channel lead --kind lead-reply --url https://www.i-boss.co.kr/ab-1958-88939 --hook h-electric-blanket-ai-2 --campaign electric-blanket-ai`
+- `uv run python -m loop log --channel lead --kind lead-reply --url https://www.i-boss.co.kr/ab-1958-88835 --hook h-korea-coffee-brands-ai-2 --campaign korea-coffee-brands-ai`
+- `uv run python -m loop log --channel lead --kind lead-reply --url https://www.i-boss.co.kr/ab-1958-88771 --hook h-korea-coffee-brands-ai-3 --campaign korea-coffee-brands-ai`
+- `uv run python -m loop log --channel lead --kind lead-reply --url https://www.i-boss.co.kr/ab-1958-88762 --hook h-electric-blanket-ai-3 --campaign electric-blanket-ai`
