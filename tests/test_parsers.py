@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from loop.blog import parse_post_page, parse_sitemap
+from loop.eopla import MagazineStats, parse_magazine_stats, parse_popular
 from loop.iboss import BoardRow, PostStats, is_relevant, parse_board_rows, parse_post_stats
 from loop.utm import with_utm
 
@@ -84,3 +85,15 @@ def test_board_row_posted_today_shows_time():
             '<td class="voteCount">0</td></tr>')
     rows = parse_board_rows(html)
     assert rows and rows[0].date == "16:07"
+
+
+def test_eopla_magazine_stats():
+    html = (HTML / "eopla_magazine.html").read_text()  # eopla.net, 2026-10-30
+    assert parse_magazine_stats(html, "https://eopla.net/magazines/48458") == MagazineStats(0, 0)
+    assert parse_magazine_stats("no stats here", "https://eopla.net/magazines/48458") is None
+
+
+def test_eopla_popular_in_rank_order():
+    ranked = parse_popular((HTML / "eopla_home.html").read_text())
+    assert ranked[:2] == ["https://eopla.net/magazines/48458", "https://eopla.net/magazines/48409"]
+    assert len(ranked) == 9

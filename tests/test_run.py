@@ -18,6 +18,10 @@ def setup_root(tmp_path):
 
 
 def fake_scrape(url):
+    if url == "https://eopla.net/":
+        return (FIX / "html" / "eopla_home.html").read_text()
+    if url.startswith("https://eopla.net/magazines/"):
+        return (FIX / "html" / "eopla_magazine.html").read_text()
     if "ab-1957" in url:
         return (FIX / "html" / "leads.html").read_text()
     if "ab-6141-" in url or "ab-1958-" in url:
@@ -217,3 +221,13 @@ def test_drafts_only_for_joined_rooms(tmp_path):
     assert "https://www.i-boss.co.kr/ab-5545-149" in draft
     for gone in ["room-hospital", "room-beauty", "room-agency", "room-inhouse", "room-viral"]:
         assert gone not in draft
+
+
+def test_eopla_post_measured_with_rank(tmp_path):
+    root = setup_root(tmp_path)
+    url = "https://eopla.net/magazines/48458"
+    append_ledger(root / "data/ledger.csv", LedgerRow(TODAY, "eopla-marketing", "post", url, "h-x-1", "x", ""))
+    out = run_day(TODAY, root, fake_scrape, fake_get, fake_ask)
+    assert read_metrics(root / "data/metrics.jsonl") == [
+        {"date": TODAY, "url": url, "views": None, "likes": 0, "comments": 0, "rank": 1}]
+    assert "- 1위: h-x-1" in (out / "scorecard.md").read_text()

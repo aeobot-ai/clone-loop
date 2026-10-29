@@ -62,3 +62,16 @@ def test_unmeasured_channel_is_not_reported_as_zero():
     out = build_scorecard(ledger, metrics, [], [], "2026-10-25")
     assert "| eopla-marketing | 1 | 측정 안 됨 | 측정 안 됨 | 측정 안 됨 | 측정 안 됨 |" in out
     assert "| board-aeo | 1 | 10 | 0 | 0 | +10 |" in out
+
+
+def test_eopla_likes_and_rank_without_views():
+    url = "https://eopla.net/magazines/1"
+    ledger = [L("board-aeo", "post", "u1"), L("eopla-marketing", "post", url)]
+    metrics = [
+        {"date": "2026-10-25", "url": "u1", "views": 10, "likes": 0, "comments": 0},
+        {"date": "2026-10-25", "url": url, "views": None, "likes": 3, "comments": 1, "rank": 1},
+    ]
+    out = build_scorecard(ledger, metrics, [], [], "2026-10-25")
+    assert "| eopla-marketing | 1 | 공개 안 됨 | 3 | 1 | 공개 안 됨 |" in out
+    assert "| h-a-1 | 2 | 10 | 3 | 1 | +10 |" in out  # views from i-boss only
+    assert f"- 1위: h-a-1 ({url})" in out

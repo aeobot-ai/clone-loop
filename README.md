@@ -14,7 +14,7 @@
 
 | 단계 | 하는 일 | 파일 |
 |---|---|---|
-| measure | 내가 올린 아이보스 글·답글의 조회수·좋아요·댓글을 다시 읽음 | `data/metrics.jsonl` |
+| measure | 내가 올린 아이보스 글·답글의 조회수·좋아요·댓글, 이오플래닛 글의 좋아요·댓글과 "오늘 많이 본 아티클" 순위(조회수는 비공개)를 다시 읽음 | `data/metrics.jsonl` |
 | collect | aeobot 최신 블로그 글, 아이보스 5개 게시판의 관련 글, 대행의뢰(SEO·AI) 새 리드 | `out/<날짜>/threads.md`, `data/leads.csv` |
 | judge | [`rubric.md`](rubric.md)의 예/아니오 체크리스트로 작성자가 진짜 고객인지 판정 | `data/targets.jsonl` |
 | scorecard | North Star와 채널·훅별 성과, 리드 현황 | `out/<날짜>/scorecard.md` |

@@ -8,8 +8,9 @@ import traceback
 from pathlib import Path
 from typing import Callable
 
-from loop import kakao, web
+from loop import eopla, kakao, web
 from loop.blog import SITEMAP, parse_post_page, parse_sitemap
+from loop.eopla import parse_magazine_stats, parse_popular
 from loop.iboss import is_relevant, parse_board_rows, parse_lead_cards, parse_post_stats, post_body
 from loop.llm import ask as claude_ask
 from loop.scorecard import build_scorecard
@@ -97,7 +98,15 @@ def run_day(
 
     def measure():
         rows = []
-        for url in sorted({r.url for r in ledger if r.url}):
+        urls = sorted({r.url for r in ledger if r.url})
+        popular = step("measure eopla home", lambda: parse_popular(scrape(eopla.HOME))) if any(map(eopla.is_eopla, urls)) else None
+        for url in urls:
+            if eopla.is_eopla(url):  # no public view count; the home page ranking stands in for it
+                stats = step(f"measure {url}", lambda u=url: parse_magazine_stats(scrape(u), u))
+                if stats:
+                    rank = popular.index(url) + 1 if popular and url in popular else None
+                    rows.append({"date": today, "url": url, "views": None, "likes": stats.likes, "comments": stats.comments, "rank": rank})
+                continue
             stats = step(f"measure {url}", lambda u=url: parse_post_stats(scrape(u)))
             if stats:
                 rows.append({"date": today, "url": url, "views": stats.views, "likes": stats.likes, "comments": stats.comments})
